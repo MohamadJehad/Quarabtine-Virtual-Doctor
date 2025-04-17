@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>New Patient</title>
+
+    <!-- Font Icon -->
+    <link href="images/favicon.png" rel="icon">
+
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/styleAddPatient.css">
+</head>
+<body>
+    <form action="../addpatient" method="post">
+    <div class="main">
+
+        <div class="container">
+            <div class="booking-content">
+                <div class="booking-image">
+                    <img class="booking-img" src="images/form-img.jpg" alt="Booking Image">
+                </div>
+                <div class="booking-form">
+                    <form id="booking-form">
+                        <h2>ADD PATIENT</h2>
+                        <div class="form-group form-input" >
+                            <input type="text" name="FName" id="FName" value="" required/>
+                            <label for="FName" class="form-label">Patient's Name</label>
+                        </div>
+                        <div class="form-group form-input" >
+                            <input type="text" name="mobile" id="mobile" value="" required />
+                            <label for="mobile" class="form-label">Patient's Mobile</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="text" name="city" id="city" value="" required/>
+                            <label for="city" class="form-label">Patient's city</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="text" name="street" id="street" value="" required/>
+                            <label for="street" class="form-label">Patient's street</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="text" name="buildingNo" id="buildingNo" value="" required/>
+                            <label for="buildingNo" class="form-label">Patient's buildingNo</label>
+                        </div>
+                        
+                        <div class="form-group form-input">
+                            <input type="text" name="weight" id="weight" value="" required/>
+                            <label for="weight" class="form-label">Patient's Weight:</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="text" name="birthDate" id="birthDate" value="" required/>
+                            <label for="birthDate" class="form-label">Patient's birthDate</label>
+                        </div>
+                       
+                        
+                        <div class="form-group form-input">
+                            <select id="doctor-list" name="doctor-list">
+                              <option value="">Choose Doctor</option>
+                              <% for (let i = 0; i < doctors.length; i++) { %>
+                                <option value="<%= doctors[i].FName %>" style="color: black;"><%= doctors[i].FName %></option>
+                              <% } %>
+                            </select>
+                          </div>
+                          
+                        
+                        <div class="gender-radio">
+                            <label for="gender" class="fl fontLabel">Gender:</label>
+
+                              <input id="Male" type="radio" name="Male" >
+                              <label for="Male"><span></span>Male</label>
+                          
+                              <input id="Female" type="radio" name="Female" >
+                              <label for="Female"><span></span>Female</label>
+                            </div>
+                        <!-- style = "position:relative; top:50px;" &nbsp;-->
+                        <div class="form-submit" >
+                            <input type="submit" value="Submit" class="submit" id="submit" name="submit" />  
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

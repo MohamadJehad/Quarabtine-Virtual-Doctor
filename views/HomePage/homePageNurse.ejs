@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Nurse</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets1/img/favicon.png" rel="icon">
+  <link href="assets1/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets1/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets1/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets1/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets1/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets1/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets1/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/infobip-webrtc-sdk.css">
+
+  <!-- Template Main CSS File -->
+  <link href="assets1/css/styleHomePage.css" rel="stylesheet">
+  
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <h1 class="logo"><a href="index.html">Quarantine Virtual Doctor</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#Patients">Patients</a></li>
+          <li><a class="nav-link scrollto " href="#Robot Control">Robot Control</a></li>
+          <form id="logout-form" action="/LogOut" method="POST">
+            <input type="hidden" name="_method" value="POST">
+          </form>  
+          <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+          </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+  </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
+      <h1>Quarantine Virtual Doctor</h1>
+      <h2> A knowledge of the specific element in disease is the key to medicine</h2>
+      <a href="#Patients" class="btn-get-started scrollto">Get Started</a>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+    <!-- ======= patient table Section ======= -->
+    <section id="Patients" class="services">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Patients</span>
+          <h2>Patients</h2>
+        </div>
+
+        <style>
+          .tablePatient {
+            text-align: center;
+            background: #012B39;
+            border-radius: 0.25cm;
+
+            border-collapse: none;
+            width: 100%;
+            max-width: 1200px;
+            
+            margin: 0 auto;
+            display: table;
+          }
+        </style>
+        <table class="tablePatient" id="table" >
+          <thead>
+           <tr>
+              <th>ID
+              <th>Name
+              <th>city
+              <th>street
+              <th>buildingNo
+              <th>Mobile
+              <th>Birth-Date 
+              <th>Gender
+              <th>Weight
+              <th>RoomID
+              <th>Profile
+          
+
+          </thead>
+          <tbody>
+            
+            <% for (var i = 0; i < patients.length; i++) { %>
+                <tr>
+                  <td><%= patients[i].ID %></td>
+                  <td><%= patients[i].FName %></td>
+                  <td><%= patients[i].city %></td>
+                  <td><%= patients[i].street %></td>
+                  <td><%= patients[i].buildingNo %></td>
+                  <td><%= patients[i].mobile %></td>
+                  <td><%= patients[i].birthDate %></td>
+                  <td><%= patients[i].gender %></td>
+                  <td><%= patients[i].weight %></td>
+                  <td><%= patients[i].room_id %></td>
+                  <td>
+                    <form action="/PatientProfileForNurse" method="post">
+                      <input type="hidden" name="patientID" value="<%= patients[i].ID %>">
+                      <input type="hidden" name="nurseID" value="<%= nurseID %>">
+                      <input type="submit" value="Click Here" style="background-color: #4CAF50;color: white; border: 0px solid transparent;;padding: 6px 6px;text-align: center;border-radius: 10px;">
+                    </form>
+                  </td>
+                </tr>
+                <% } %>
+          </tbody>
+        </table>
+        </div>
+
+    </section><!-- End Services Section -->
+
+<br><br><br><br><br><br>
+    <section id="Robot Control" class="portfolio">
+      <div class="container">
+
+        <div class="section-title">
+          <span>Robot Control</span>
+          <h2>Robot Control</h2>
+        </div>
+
+          <div class="button-container">
+            <button class="button up" onclick="sendDirection('up')">Up</button>  
+            <button class="button down" onclick="sendDirection('down')">Down</button>  
+            <button class="button left" onclick="sendDirection('left')">Left</button>  
+            <button class="button right" onclick="sendDirection('right')">Right</button>  
+          </div>
+
+
+
+            <style type="text/css">
+              .button-container {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  height: 50vh;
+              }
+              
+              .button {
+                  background-color: #4CAF50; /* Green */
+                  border: none;
+                  color: white;
+                  padding: 10px 20px;
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                  font-size: 16px;
+                  margin: 10px;
+                  width: 100px;
+                  height: 100px;
+                  border-radius: 5px;
+              }
+              .button-container:focus {
+                  outline: none;
+              }
+      
+          </style>  
+        </div>
+
+          <h1></h1>
+          <h1></h1>
+          <h1></h1>
+          <h1></h1>
+          <h1></h1>
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Section -->
+    <section id="services" class="services">
+      <div class="container">
+    
+        <div class="section-title">
+          <br>
+          <br>
+          <br>
+          <h2>Robot Control</h2>
+        </div>
+    
+        <div class="todo">
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <script>
+              const ROOM_ID = "25"
+              
+            </script>
+            <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+            <script src="/socket.io/socket.io.js" defer></script>
+            <script src="/script.js" defer></script>
+            
+            <title>Document</title>
+            <style>
+              #video-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, 300px);
+                grid-auto-rows: 300px;
+              }
+              
+              video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+            </style>
+            <script>
+              console.log(`room id = 25`);  
+            </script>
+          </head>
+          <body>
+            <div id="video-grid"></div>
+          </body>
+          </html>
+        </div>
+    
+      </div>
+    </section><!-- End Robot control Section -->
+    
+
+    
+
+
+
+
+    
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="container">
+      <div class="copyright">
+        &copy; <strong><span>QUARANTINE VIRTUAL DOCTOR</span></strong>.
+        <br>
+        <strong><a href="http://www.helwan.edu.eg">Faculty Of Engineering - Helwan University</a><strong>
+        <br>
+        </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets1/vendor/aos/aos.js"></script>
+  <script src="assets1/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets1/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets1/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets1/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets1/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets1/js/main.js"></script>
+  <script src="/BackEnd/server.js"></script>
+
+</body>
+
+</html>

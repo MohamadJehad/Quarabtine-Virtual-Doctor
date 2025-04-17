@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Profile</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/stylePatient.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: iPortfolio - v3.9.1
+  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Mobile nav toggle button ======= -->
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+  <!-- ======= Header ======= -->
+  <header id="header">
+    <div class="d-flex flex-column">
+
+      <div class="profile">
+        <img src="assets/img/profile-img.webp" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light"><a href="index.html"><%= patients[0].FName %></a></h1>
+      </div>
+
+      <nav id="navbar" class="nav-menu navbar">
+        <ul>
+          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
+          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Health Indicators</span></a></li>
+          <li><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Robot Control</span></a></li>
+          <li><a href="#history" class="nav-link scrollto"><i class="bi bi-plus-circle"></i> <span>History</span></a></li>
+          <li><a href="#patienttreatmentplan" class="nav-link scrollto"><i class="bi bi-plus-circle"></i> <span>Situations</span></a></li>
+         </ul>
+      </nav><!-- .nav-menu -->
+    </div>
+  </header><!-- End Header -->
+  
+ 
+
+  <main id="main">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>About</h2>
+        </div>
+        <div class="row">
+          <div class="col-lg-4" data-aos="fade-right">
+            <img src="assets/img/profile-img.webp" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+            <h3><%= patients[0].FName %></h3>
+            <div class="row">
+              <div class="col-lg-6">
+                <form action="/PatientSaveEdit" method="post">  
+                  <div class="form-field" style="position: relative;">
+                    
+                <ul>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Name:</strong> 
+                    <span class="editable"  contenteditable="true"><%= patients[0].FName %></span>
+                    <input class="editField" type="text" name="FName" id="FName" value="<%= patients[0].FName %>" required hidden/>
+                  </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Gender:</strong> 
+                    <span class="editable"  contenteditable="true"><%= patients[0].gender %></span>
+                    <input class="editField" type="text" name="gender" id="gender" value="<%= patients[0].gender %>" required hidden/>
+                  </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> 
+                    <span class="editable"  contenteditable="true"><%= patients[0].birthDate %></span>
+                    <input class="editField" type="text"id="birthDate" name="birthDate" value="<%= patients[0].birthDate %>" required hidden/>
+                  </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> 
+                    <span class="editable" contenteditable="true"><%= patients[0].mobile %></span>
+                    <input class="editField" type="text" id="mobile" name="mobile" value="<%= patients[0].mobile %>" required hidden/>
+                  </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Street:</strong> 
+                    <span class="editable" contenteditable="true"><%= patients[0].street %></span>
+                    <input class="editField" type="text" id="street" name="street" value="<%= patients[0].street %>" required hidden/>
+                  </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> 
+                    <span class="editable"  contenteditable="true"><%= patients[0].city %></span>
+                    <input class="editField" type="text" id="city" name="city" value="<%= patients[0].city %>" required hidden/>
+                  </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Building No:</strong> 
+                    <span class="editable" contenteditable="true"><%= patients[0].buildingNo %></span>
+                    <input class="editField" type="text"  id="buildingNo" name="buildingNo" value="<%= patients[0].buildingNo %>" required hidden/>
+                  </li>
+
+                  
+                <% const birthdateStr = patients[0].birthDate; %>
+                <!-- Parse the birthdate string into a Date object -->
+                <% const [day, month,year] = birthdateStr.split('-').map(Number); %>
+                <% const birthdate = new Date(year, month - 1, day); %>
+                
+                <!-- Calculate the age -->
+                <% const today = new Date(); %>
+                <% var age = today.getFullYear() - birthdate.getFullYear(); %>
+                <% const monthDiff = today.getMonth() - birthdate.getMonth(); %>
+                <% if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) { %>
+                  <% age--; %>
+                <% } %>
+
+                <li>
+                  <i class="bi bi-chevron-right"></i>
+                  <strong>Age:</strong> 
+                  <span class="editable"><%= age.toString() %></span>
+                </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>weight:</strong> 
+                    <span class="editable"  contenteditable="true"><%= patients[0].weight %></span>
+                    <input class="editField" type="text"  id="weight" name="weight"  value="<%= patients[0].weight %>" required hidden/>
+                  </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong>Doctor:</strong> 
+                    <span class="editable" name="assigned_doctor" contenteditable="true"><%= patients[0].assigned_doctor %></span>
+                  </li>
+                </ul>
+              
+                    <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+                    <button class="btn" name="submit" type="submit" required hidden>save edit</button>
+                  </div>
+                </form>
+                <form action="DeletePatient" method="post">
+                  <div class="form-field" style="position: relative;">
+                   <input type="hidden" name="patientID" value="<%= patients[0].ID %>" >
+                    <button class="btn" name="submit" type="submit" required hidden>Delete</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+      </div>
+    </section><!-- End About Section -->
+
+   <!-- ======= Resume Section ======= -->
+   <section id="resume" class="resume">
+    <div class="container">
+
+      <div class="section-title">
+        <br>
+        <h2>Health Indicators</h2>
+      </div>
+
+      <div class="title-reading">
+        <h2>History</h2>
+      </div>
+
+        <div class="title-reading2">
+        <h2>New Reading<h2>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date
+            <th>Time
+            <th>Temperature
+            <th>Heartbeat Rate
+            <th>Oxygen Rate
+        </thead>
+        <tbody>
+            <% var start = health.length - 4; %>
+            <% if (start < 0) { start = 0; } %>
+            <% for (var i = start; i < health.length; i++) { %>
+              <tr>
+                <td><%= health[i].date.slice(0, 10) %></td>
+                <td><%= health[i].time %></td>
+                <td><%= health[i].temp %></td>
+                <td><%= health[i].heartRate %></td>
+                <td><%= health[i].oxygenRate %></td> 
+              </tr>
+              <% } %>
+        </tbody>
+      </table>
+
+      <div class="icons-health" data-aos="fade-right">
+          <img src="assets/img/heart.png" class="img-fluid" alt="">
+          <img src="assets/img/temp.jpg" class="img-fluid" alt="">
+          <img src="assets/img/oxy.png" class="img-fluid" alt="">
+                            
+        </div>
+
+        <div  class="textfields">
+        <div class="reading-Textfield" >
+          <% if (showMeassure==false) { %>
+            <input class="reading" type="text" placeholder="Heartbeat Reading" >
+            <input class="reading" type="text" placeholder="Temperature Reading">
+            <input class="reading" type="text" placeholder="Oxygen Rate Reading" >
+          <% } else { %>
+            <input class="reading" type="text" placeholder="Heartbeat Reading" value="<%= health[health.length-1].heartRate %>">
+            <input class="reading" type="text" placeholder="Temperature Reading" value="<%= health[health.length-1].temp %>">
+            <input class="reading" type="text" placeholder="Oxygen Rate Reading" value="<%= health[health.length-1].oxygenRate %>">
+        
+          <% } %>
+        </div>
+        </div>
+
+        <div class="Measure-butn">
+          <form action="../NewMeasureFornurse" method="post">
+            <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+
+          <div class="form-field" >
+
+            <button type="submit" value="Measure" class="Measure" id="Measure" name="Measure" >Measure</button>
+            
+            </div>
+          </form>
+        </div>
+
+      <script src="/socket.io/socket.io.js"></script>
+
+    </div>
+  </section><!-- End Resume Section -->
+ 
+
+   <!-- ======= Robot control  Section ======= -->
+   <section id="services" class="services">
+    <div class="container">
+  
+      <div class="section-title">
+        <br>
+        <br>
+        <br>
+        <h2>Robot Control</h2>
+      </div>
+  
+      <div class="todo">
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          <script>
+            const ROOM_ID = "<%= roomId %>"
+          </script>
+          <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+          <script src="/socket.io/socket.io.js" defer></script>
+          <script src="/script.js" defer></script>
+          
+          <title>Document</title>
+          <style>
+       
+    #video-grid {
+      display: grid;
+   
+    }
+  
+    .video-self {
+      width: 170px;
+      height: 160px;
+      right: 0;
+      bottom: 0;
+    }
+  
+    .video-other {
+      width: 600px;
+      height: 400px;
+      object-fit: cover;
+      left: 0;
+      bottom: 0;
+    }
+  </style>
+  
+          </style>
+          <script>
+            console.log(`room id = <%= roomId %>`);
+          </script>
+        </head>
+        <body>
+          <div id="video-grid"></div>
+        </body>
+        </html>
+      </div>
+  
+    </div>
+  
+  
+    <div class="button-container">
+      <button class="button up" onclick="sendDirection('up')">Up</button>  
+      <button class="button down" onclick="sendDirection('down')">Down</button>  
+      <button class="button left" onclick="sendDirection('left')">Left</button>  
+      <button class="button right" onclick="sendDirection('right')">Right</button>  
+  </div>
+      <style type="text/css">
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+        }
+        
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+        }
+        .button-container:focus {
+            outline: none;
+        }
+  
+    </style>  
+  
+    <script>
+      
+  //movement of the robot 
+  
+  function sendDirection(direction) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log("Direction sent: " + direction);
+      }
+    };
+    xhttp.open("POST", "/direction", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("direction=" + direction);
+  }
+  
+  
+  // allow keyboard arrow keys to control robot movement
+  document.addEventListener('keydown', (event) => {
+    const keyName = event.key;
+    switch (keyName) {
+        case 'w':
+          sendDirection('left')  ;  
+            break;
+        case 's':
+          sendDirection('right');
+            break;
+        case 'a':
+          sendDirection('down');
+            break;
+        case 'd':
+          sendDirection('up');
+            break;
+        default:
+            break;
+    }
+  });
+    </script>
+  </div>
+  
+  </div>
+  
+  
+  
+  </section><!-- End Robot control Section -->
+
+
+<!-- ======= History Section ======= -->
+<section id="history" class="history">
+  <div class="container">
+
+    <div class="section-title">
+      <br>
+      <h2>Situations History</h2>
+    </div>
+    <div class="Table1">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Situation</th>
+            <th>Medicine</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = 0; i < history.length; i++) { %>
+            <tr>
+              <td><%= history[i].date %></td>
+              <td><%= history[i].time %></td>
+              <td><%= history[i].Situation %></td>
+              <td>
+                <div id="medicineField<%= i %>">
+                  <%= history[i].medicine %>
+                </div>
+              </td>
+              <td>
+               
+
+                </form>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    
+    
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    
+    
+</section><!-- End History Section -->
+
+
+
+    <section id="patienttreatmentplan" class="Patient Treatment Plan">
+      <div class="container">
+      <div class="section-title">
+        <h2>Situations</h2>
+      </div>
+    <section id="patient-treatment-plan" class="patient-treatment-plan">
+      <div class="container">
+
+        <div class="patient-treatment-plan-form">
+          <form id="prescription-form">
+            <label for="situation">Situation:</label>
+            <select id="situation" name="situation">
+              <option value="" selected disabled hidden>Patient's Situation...</option>
+              <% for (var i = 0; i < situations.length; i++) { %>
+                <option value="<%= situations[i].medicine %>"><%= situations[i].Situation %></option>
+              <% } %>
+            </select>
+            <label for="medicine">Action:</label>
+            <input type="text" id="medicine" name="medicine" placeholder="Click Below To Get The Action">
+            <input type="submit" value="Show Action">
+          </form>
+        </div>
+     
+        
+     
+    
+      </div> </div>
+    </section>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </section>
+
+
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="container">
+      <div class="copyright">
+        &copy; <strong><span>QUARANTINE VIRTUAL DOCTOR</span></strong>
+        <br>
+        <strong><a href="http://www.helwan.edu.eg">Faculty Of Engineering - Helwan University</a><strong>
+        <br>
+        </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/typed.js/typed.min.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
