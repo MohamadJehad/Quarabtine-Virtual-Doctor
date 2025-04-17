@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Receptionist</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets1/img/favicon.png" rel="icon">
+  <link href="assets1/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets1/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets1/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets1/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets1/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets1/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets1/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets1/css/styleHomePage.css" rel="stylesheet">
+  
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="index.html">Quarantine Virtual Doctor</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          
+          <li><a class="nav-link scrollto " href="#Patient">Patients</a></li>
+          <li><a class="nav-link scrollto " href="#Nurse">Nurses</a></li>
+          <li><a class="nav-link scrollto " href="#nmonitorp">Monitoring History</a></li>
+          
+          <form id="logout-form" action="/LogOut" method="POST">
+            <input type="hidden" name="_method" value="POST">
+          </form>  
+          <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log Out</a>
+          
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
+      <h1>Quarantine Virtual Doctor</h1>
+      <h2> A knowledge of the specific element in disease is the key to medicine</h2>
+      <a href="#IT_Manager" class="btn-get-started scrollto">Get Started</a>
+    </div>
+  </section><!-- End Hero -->
+
+
+    <!-- ======= patient table Section ======= -->
+    <section id="Patient" class="services">
+      <div class="container">
+    
+
+        <div class="section-title">
+          <span>Patients</span>
+          <h2>Patients</h2>
+        </div>
+
+        <style>
+          .tablePatient {
+            text-align: center;
+            background: #012B39;
+            border-radius: 0.25em;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 1300px;
+            
+            margin: 0 auto;
+            display: table;
+          }
+        </style>
+        <table class="tablePatient" id="table" >
+          <thead>
+            <tr>
+              <th>ID
+                <th>Name
+                <th>City
+                <th>Street
+                <th>BuildingNo
+                <th>Mobile
+                <th>Birth-Date 
+                <th>Gender
+                <th>Weight
+                <th>Assigned-Doctor
+                <th>Room
+                <th>Profile
+            </thead>
+            <tbody>
+             
+              <% for (var i = 0; i < patients.length; i++) { %>
+                  <tr>
+                    <td><%= patients[i].ID %></td>
+                    <td><%= patients[i].FName %></td>
+                    <td><%= patients[i].city %></td>
+                    <td><%= patients[i].street %></td>
+                    <td><%= patients[i].buildingNo %></td>
+                    <td><%= patients[i].mobile %></td>
+                    <td><%= patients[i].birthDate %></td>
+                    <td><%= patients[i].gender %></td>
+                    <td><%= patients[i].weight %></td>
+                    <td><%= patients[i].assigned_doctor %></td>
+                    <td><%= patients[i].room_id %></td>
+                    <td>
+                      <form action="/PatientProfileForIT_Manager" method="post">
+                        <input type="hidden" name="patientID" value="<%= patients[i].ID %>">
+                        <input type="submit" value="Click Here"style="background-color: #4CAF50; border: none; color: white;padding: 6px 6px;text-align: center; ;border-radius: 10px;">
+                      </form>
+                    </td>
+                    
+                    
+                  </tr>
+                  <% } %>
+                  <tr style="border-top: 1px solid white;">
+              <td colspan="16"><a href="..\addpatient" target="_blank">Add New Patient</a>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+    </section><!-- End Services Section -->
+
+
+
+
+    <!-- ======= Nurse Table Section ======= -->
+    <section id="Nurse" class="Nurse">
+      <div class="Nurse">
+
+        <div class="section-title">
+          
+          <span>Nurse</span>
+          <h2>Nurse</h2>
+        </div>
+
+        <style>
+          .tablenurse {
+            text-align: center;
+            background: #012B39;
+            border-radius: 0.25em;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 1300px;
+            
+            margin: 0 auto;
+            display: table;
+          }
+        </style>
+        <table class="tablenurse">
+          <thead>
+            <tr>
+                <th>ID
+                <th>Name
+                <th>Phone
+                <th>Floor
+                <th>Edit Floor
+          </thead>
+          <tbody>
+           
+                <% for (var i = 0; i < nurses.length; i++) { %>
+                    <tr>
+                  <td name="id"><%= nurses[i].id %></td>
+                  <td><%= nurses[i].name %></td>
+                  <td><%= nurses[i].phone %></td>
+                  <td>
+                    <div id="floorField<%= i %>">
+                      <%= nurses[i].floor %>
+                    </div>
+                    <form id="editForm<%= i %>" style="display: none;" method="post" action="/edit-floor">
+                      <input type="hidden" name="nurse_id" value="<%= nurses[i].id %>">
+                      <input type="hidden" name="patientID" value="<%= patients[0].ID %>" >
+                      <input type="text" name="floor" value="<%= nurses[i].floor %>">
+                      <button type="submit" style="background: none; border: none;"><i class="bx bx-save" style="font-size: 30px; color: gray; margin-top: -4px;"></i></button>
+                    </form>
+                  </td>
+                  <td>
+                    <button type="button" onclick="toggleEdit('<%= i %>')" style="background: none; border: none; color: gray; font-size: 32px;"><i class="bx bx-edit"></i></button>
+    
+                  </td>
+                  
+               
+                 </tr>
+                <% } %>
+                <tr style="border-top: 1px solid white;">
+              <td colspan="15"><a href="..\addnurse" target="_blank">Add New Nurse</a>
+              </tr>
+              </tbody>
+        </table>
+     
+        </div>
+
+      </div>
+    </section><!-- End Doctor Table Section -->  
+
+
+
+
+
+    <!-- ======= nurse-patient-history table Section ======= -->
+    <section id="nmonitorp" class="nmonitorp">
+      <div class="container">
+    
+
+        <div class="section-title">
+          <span>Nurse-Monitor-Patient</span>
+          <h2>Nurse-Monitor-Patient</h2>
+        </div>
+
+        <style>
+          .tablePatient {
+            text-align: center;
+            background: #012B39;
+            border-radius: 0.25em;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 1300px;
+            
+            margin: 0 auto;
+            display: table;
+          }
+        </style>
+        <table class="tablePatient" id="table" >
+          <thead>
+            <tr>
+              <th>Date
+                <th>Time
+                <th>Nurse_ID
+                <th>Nurse_Name
+                <th>Patient_ID
+                <th>Patient_Name
+              
+            </thead>
+            <tbody>
+             
+              <% for (var i = 0; i < nmonitorp.length; i++) { %>
+                <tr>
+                  <td><%= nmonitorp[i].date %></td>
+                  <td><%= nmonitorp[i].time %></td>
+                  <td><%= nmonitorp[i].nurse_id %></td>
+                  <% for (var j = 0; j < nurses.length; j++) {
+                    if (nurses[j].id === nmonitorp[i].nurse_id) { %>
+                      <td><%= nurses[j].name %></td>
+                    <% }
+                  } %>
+                  <td><%= nmonitorp[i].patient_id %></td>
+                  <% for (var j = 0; j < patients.length; j++) {
+                    if (patients[j].ID === nmonitorp[i].patient_id) { %>
+                      <td><%= patients[j].FName %></td>
+                    <% }
+                  } %>
+                  
+                </tr>
+              <% } %>
+              
+                
+          </tbody>
+        </table>
+        </div>
+    </section><!-- End nurse-patient-history Section -->
+
+
+
+
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="container">
+      <div class="copyright">
+        &copy; <strong><span>QUARANTINE VIRTUAL DOCTOR</span></strong>.
+        <br>
+        <strong><a href="http://www.helwan.edu.eg">Faculty Of Engineering - Helwan University</a><strong>
+        <br>
+        </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets1/vendor/aos/aos.js"></script>
+  <script src="assets1/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets1/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets1/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets1/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets1/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets1/js/main.js"></script>
+
+</body>
+
+</html>
+
+
+

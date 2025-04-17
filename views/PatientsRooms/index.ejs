@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Assign Room</title>
+
+    <!-- Font Icon -->
+    <link href="images/favicon.png" rel="icon">
+
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/stylePatientsRooms.css">
+</head>
+<body>
+    <form action="../goToHomePageFromSelectSeat" method="post">
+    <div class="main">
+
+        <div class="container">
+            <div class="booking-content">
+                <div class="booking-image">
+                    <img class="booking-img" src="images/form-img.jpg" alt="Booking Image">
+                </div>
+                <div class="booking-form">
+                    <form id="booking-form">
+                        <h2>ASSIGN ROOM</h2>
+                        <h3>Floor 1</h3>
+
+                        <div class="seats">
+                            <div class="coulmn">
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <% if (IRooms.includes(i)) { %>
+                                        <div class="seat" data-seat="<%= i %>" style="background-color: red;"><%= i %></div>
+
+                                    <% } else { %>
+                                      <div class="seat" data-seat="<%= i %>"><%= i %></div>
+                                    <% } %>
+                                  <% } %>
+                                  
+                            </div>
+                            <div class= "tor2a"> 
+                                <div class="tor2a1"></div>
+                            </div>
+                            <div class="coulmn">
+                                <% for (let i = 6; i <= 10; i++) { %>
+                                    <% if (IRooms.includes(i)) { %>
+                                        <div class="seat" data-seat="<%= i %>" style="background-color: red;"><%= i %></div>
+
+                                    <% } else { %>
+                                      <div class="seat" data-seat="<%= i %>"><%= i %></div>
+                                    <% } %>
+                                  <% } %>
+                              </div>    
+                              <h4>Floor 2</h4>
+                              <div class="coulmn2">
+                                <% for (let i = 11; i <= 15; i++) { %>
+                                    <% if (IRooms.includes(i)) { %>
+                                        <div class="seat" data-seat="<%= i %>" style="background-color: red;"><%= i %></div>
+
+                                    <% } else { %>
+                                      <div class="seat" data-seat="<%= i %>"><%= i %></div>
+                                    <% } %>
+                                  <% } %>
+                              </div>
+                              <div class= "tor2a"> 
+                                  <div class="tor2a1"></div>
+                              </div>
+                              <div class="coulmn3">
+                                <% for (let i = 16; i <= 20; i++) { %>
+                                    <% if (IRooms.includes(i)) { %>
+                                        <div class="seat" data-seat="<%= i %>" style="background-color: red;"><%= i %></div>
+
+                                    <% } else { %>
+                                      <div class="seat" data-seat="<%= i %>"><%= i %></div>
+                                    <% } %>
+                                  <% } %>
+                                </div>
+                              
+                          </div>
+
+                        <!-- style = "position:relative; top:50px;" &nbsp;-->
+                        <div class="form-submit" >
+                            <input type="submit" value="Submit" class="submit" id="submit" name="submit" />  
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+<script>
+
+const seats = document.querySelectorAll('.seat, .seat2');
+let selectedSeat = null;
+seats.forEach(seat => {
+  seat.addEventListener('click', () => {
+    if (!selectedSeat) {
+      seat.classList.add('selected');
+      selectedSeat = seat;
+      seat.style.backgroundColor = 'red';
+
+      // Get the seat number from the data-seat attribute
+      const seatNumber = seat.getAttribute('data-seat');
+      console.log(seatNumber);
+
+      // Perform a POST request to the selectRoom route with the selected seat number in the request body
+      fetch('/selectRoom', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ seatNumber })
+      })
+      .then(response => {
+        // Handle the response
+        console.log(response);
+      })
+      .catch(error => {
+        // Handle the error
+        console.error(error);
+      });
+    } else if (selectedSeat === seat) {
+      seat.classList.remove('selected');
+      selectedSeat = null;
+      seat.style.backgroundColor = '';
+    }
+  });
+});
+
+</script>
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="/views/PatientsRooms/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
