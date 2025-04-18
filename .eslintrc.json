@@ -9,6 +9,14 @@
     "ecmaVersion": 2021
   },
   "rules": {
-    "no-console": "off"
+    "no-console": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "all",
+        "ignoreRestSiblings": true
+      }
+    ]
   }
 }
