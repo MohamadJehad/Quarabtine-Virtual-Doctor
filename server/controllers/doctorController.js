@@ -1,16 +1,23 @@
 const Patient = require('../models/patientModel');
-const mqttService = require('../services/mqttService');
-const videoService = require('../services/videoService');
+// const mqttService = require('../services/mqttService');
+// const videoService = require('../services/videoService');
 
 exports.renderHomePage = async (req, res) => {
   try {
+    // Get the doctor ID from the session
     const doctorId = req.session.doctorID;
+
+    // Get all patients assigned to this doctor
     const patients = await Patient.getByDoctorId(doctorId);
 
-    res.render('doctor/home', { patients });
+    // Render the doctor home page with the patients data
+    res.render('doctor/home', {
+      patients,
+      title: 'Doctor Dashboard',
+    });
   } catch (error) {
     console.error('Error rendering doctor home page:', error);
-    res.status(500).render('errors/500', { error: 'Failed to load doctor home page' });
+    res.status(500).render('errors/500', { error: 'Failed to load doctor dashboard' });
   }
 };
 
@@ -41,10 +48,10 @@ exports.startNewMeasurement = async (req, res) => {
     const patientId = req.body.patientID;
 
     // Set the patient ID for measurement in MQTT service
-    mqttService.setPatientForMeasure(patientId);
+    // mqttService.setPatientForMeasure(patientId);
 
-    // Trigger measurement via MQTT
-    mqttService.publishMessage('M11', 's');
+    // // Trigger measurement via MQTT
+    // mqttService.publishMessage('M11', 's');
 
     // Wait for measurement to complete
     setTimeout(async () => {
@@ -54,10 +61,10 @@ exports.startNewMeasurement = async (req, res) => {
       const status = await Patient.getStatus(patientId);
 
       res.render('doctor/patientProfile', {
-        patients: [patient],
-        health: healthData,
-        history: situations,
-        status: [status],
+        // patients: [patient],
+        // health: healthData,
+        // history: situations,
+        // status: [status],
         showMeassure: true,
         roomId: 25,
       });
@@ -112,7 +119,7 @@ exports.deleteSituation = async (req, res) => {
 };
 
 exports.startVideoCall = (req, res) => {
-  const roomId = videoService.generateRoomId();
-  req.session.roomID = roomId;
+  //   const roomId = videoService.generateRoomId();
+  //   req.session.roomID = roomId;
   res.redirect(`/video/room/${roomId}`);
 };
