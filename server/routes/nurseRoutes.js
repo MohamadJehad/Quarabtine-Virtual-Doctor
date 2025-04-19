@@ -9,22 +9,22 @@ router.use(isAuthenticated, isNurse);
 // GET nurse home page
 router.get('/home', nurseController.renderHomePage);
 
-// GET patient profile
-router.get('/patient/:id', nurseController.renderPatientProfile);
+// // GET patient profile
+// router.get('/patient/:id', nurseController.renderPatientProfile);
 
-// POST start new measurement
-router.post('/new-measure', nurseController.startNewMeasurement);
+// // POST start new measurement
+// router.post('/new-measure', nurseController.startNewMeasurement);
 
-// GET monitor patient
-router.get('/monitor-patient/:id', nurseController.renderMonitorPatient);
+// // GET monitor patient
+// router.get('/monitor-patient/:id', nurseController.renderMonitorPatient);
 
-// POST add monitoring record
-router.post('/add-monitoring', nurseController.addMonitoringRecord);
+// // POST add monitoring record
+// router.post('/add-monitoring', nurseController.addMonitoringRecord);
 
-// GET view health indicators
-router.get('/health-indicators/:id', nurseController.viewHealthIndicators);
+// // GET view health indicators
+// router.get('/health-indicators/:id', nurseController.viewHealthIndicators);
 
-// GET start video call
-router.get('/video-call', nurseController.startVideoCall);
+// // GET start video call
+// router.get('/video-call', nurseController.startVideoCall);
 
 module.exports = router;
