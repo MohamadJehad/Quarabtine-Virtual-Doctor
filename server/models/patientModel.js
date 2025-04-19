@@ -37,7 +37,7 @@ class Patient {
     return new Promise((resolve, reject) => {
       // Convert array to comma-separated string for SQL IN clause
       const roomIdsString = roomIds.join(',');
-      
+
       db.query(
         `SELECT p.ID, p.FName, p.gender, p.birthDate, p.weight, p.mobile, 
          p.city, p.street, p.buildingNo, p.room_id, doctor.FName as assigned_doctor 
@@ -51,7 +51,6 @@ class Patient {
       );
     });
   }
-  
 
   static getByDoctorId(doctorId) {
     return new Promise((resolve, reject) => {
