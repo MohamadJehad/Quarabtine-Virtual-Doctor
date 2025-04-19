@@ -38,6 +38,7 @@ const itManagerRoutes = require('./routes/itManagerRoutes');
 const nurseRoutes = require('./routes/nurseRoutes');
 const nurseController = require('./controllers/nurseController');
 const receptionistRoutes = require('./routes/receptionistRoutes');
+const patientRoutes = require('./routes/patientRoutes');
 
 // Use routes
 app.use('/auth', authRoutes);
@@ -47,6 +48,7 @@ app.use('/doctor', doctorRoutes);
 app.use('/it-manager', itManagerRoutes);
 app.use('/nurse', nurseRoutes);
 app.use('/receptionist', receptionistRoutes);
+app.use('/patient', patientRoutes);
 // ... other route uses
 
 // Import models
