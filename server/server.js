@@ -34,7 +34,7 @@ app.set('views', path.join(__dirname, '../views'));
 const authRoutes = require('./routes/authRoutes');
 // ... other route imports
 const doctorRoutes = require('./routes/doctorRoutes');
-const itManagerRoutes = require('./routes/itManagerRoutes'); 
+const itManagerRoutes = require('./routes/itManagerRoutes');
 // Use routes
 app.use('/auth', authRoutes);
 

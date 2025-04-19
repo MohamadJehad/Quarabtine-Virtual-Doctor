@@ -43,9 +43,9 @@ exports.renderPatientProfile = async (req, res) => {
   }
 };
 
-exports.startNewMeasurement = async (req, res) => {
+exports.startNewMeasurement = async (_, res) => {
   try {
-    const patientId = req.body.patientID;
+    // const patientId = req.body.patientID;
 
     // Set the patient ID for measurement in MQTT service
     // mqttService.setPatientForMeasure(patientId);
@@ -55,10 +55,10 @@ exports.startNewMeasurement = async (req, res) => {
 
     // Wait for measurement to complete
     setTimeout(async () => {
-      const patient = await Patient.getById(patientId);
-      const healthData = await Patient.getHealthIndicators(patientId);
-      const situations = await Patient.getSituations(patientId);
-      const status = await Patient.getStatus(patientId);
+      // const patient = await Patient.getById(patientId);
+      // const healthData = await Patient.getHealthIndicators(patientId);
+      // const situations = await Patient.getSituations(patientId);
+      // const status = await Patient.getStatus(patientId);
 
       res.render('doctor/patientProfile', {
         // patients: [patient],
@@ -118,8 +118,8 @@ exports.deleteSituation = async (req, res) => {
   }
 };
 
-exports.startVideoCall = (req, res) => {
+exports.startVideoCall = (_, res) => {
   //   const roomId = videoService.generateRoomId();
-  //   req.session.roomID = roomId;
-  res.redirect(`/video/room/${roomId}`);
+  // req.session.roomID = roomId;
+  res.redirect(`/video/room/${'roomId'}`);
 };

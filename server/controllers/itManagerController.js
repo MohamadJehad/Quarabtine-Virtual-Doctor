@@ -4,7 +4,7 @@ const Nurse = require('../models/nurseModel');
 const Patient = require('../models/patientModel');
 const Receptionist = require('../models/receptionistModel');
 
-exports.testRoute = (req, res) => {
+exports.testRoute = (_, res) => {
   res.send('IT Manager test route works!');
 };
 
@@ -44,7 +44,7 @@ exports.renderITManagerHome = async (_, res) => {
     const patients = await Patient.getAll();
     const nurses = await Nurse.getAll();
     const receptionists = await Receptionist.getAll();
-    
+
     res.render('it-manager/home', {
       IT_Manager: itManagers,
       doctors,
@@ -58,7 +58,7 @@ exports.renderITManagerHome = async (_, res) => {
   }
 };
 
-exports.renderAddDoctorForm = async (req, res) => {
+exports.renderAddDoctorForm = async (_, res) => {
   try {
     // Render the add doctor form view
     res.render('it-manager/add-doctor');
@@ -70,20 +70,11 @@ exports.renderAddDoctorForm = async (req, res) => {
 
 exports.addDoctor = async (req, res) => {
   try {
-    const { 
-      FName, 
-      gender, 
-      username, 
-      password, 
-      specialization, 
-      mobile, 
-      city, 
-      street, 
-      buildingNo 
-    } = req.body;
-
+    const { FName, gender, username, password, specialization, mobile, city, street, buildingNo } =
+      req.body;
+    console.log({ gender });
     // Create doctor
-    const doctorId = await Doctor.create({
+    await Doctor.create({
       FName,
       gender: req.body.Male ? 'Male' : 'Female',
       username,
@@ -92,7 +83,7 @@ exports.addDoctor = async (req, res) => {
       mobile,
       city,
       street,
-      buildingNo
+      buildingNo,
     });
 
     // Redirect to IT manager home page after successful creation
