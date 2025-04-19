@@ -6,6 +6,9 @@ const { isAuthenticated, isITManager } = require('../middleware/auth');
 // Apply authentication middleware to all IT manager routes
 router.use(isAuthenticated, isITManager);
 
+// // Add this route near the top, after the middleware
+// router.get('/test', itManagerController.testRoute);
+
 // GET IT manager home page
 router.get('/home', itManagerController.renderITManagerHome);
 
@@ -15,61 +18,61 @@ router.get('/add-doctor', itManagerController.renderAddDoctorForm);
 // POST add doctor
 router.post('/add-doctor', itManagerController.addDoctor);
 
-// GET add nurse form
-router.get('/add-nurse', itManagerController.renderAddNurseForm);
+// // GET add nurse form
+// router.get('/add-nurse', itManagerController.renderAddNurseForm);
 
-// POST add nurse
-router.post('/add-nurse', itManagerController.addNurse);
+// // POST add nurse
+// router.post('/add-nurse', itManagerController.addNurse);
 
-// GET add receptionist form
-router.get('/add-receptionist', itManagerController.renderAddReceptionistForm);
+// // GET add receptionist form
+// router.get('/add-receptionist', itManagerController.renderAddReceptionistForm);
 
-// POST add receptionist
-router.post('/add-receptionist', itManagerController.addReceptionist);
+// // POST add receptionist
+// router.post('/add-receptionist', itManagerController.addReceptionist);
 
-// GET add IT manager form
-router.get('/add-it-manager', itManagerController.renderAddITManagerForm);
+// // GET add IT manager form
+// router.get('/add-it-manager', itManagerController.renderAddITManagerForm);
 
-// POST add IT manager
-router.post('/add-it-manager', itManagerController.addITManager);
+// // POST add IT manager
+// router.post('/add-it-manager', itManagerController.addITManager);
 
-// GET edit doctor form
-router.get('/edit-doctor/:id', itManagerController.renderEditDoctorForm);
+// // GET edit doctor form
+// router.get('/edit-doctor/:id', itManagerController.renderEditDoctorForm);
 
-// POST update doctor
-router.post('/update-doctor/:id', itManagerController.updateDoctor);
+// // POST update doctor
+// router.post('/update-doctor/:id', itManagerController.updateDoctor);
 
-// POST delete doctor
-router.post('/delete-doctor/:id', itManagerController.deleteDoctor);
+// // POST delete doctor
+// router.post('/delete-doctor/:id', itManagerController.deleteDoctor);
 
-// GET edit nurse form
-router.get('/edit-nurse/:id', itManagerController.renderEditNurseForm);
+// // GET edit nurse form
+// router.get('/edit-nurse/:id', itManagerController.renderEditNurseForm);
 
-// POST update nurse
-router.post('/update-nurse/:id', itManagerController.updateNurse);
+// // POST update nurse
+// router.post('/update-nurse/:id', itManagerController.updateNurse);
 
-// POST delete nurse
-router.post('/delete-nurse/:id', itManagerController.deleteNurse);
+// // POST delete nurse
+// router.post('/delete-nurse/:id', itManagerController.deleteNurse);
 
-// GET edit receptionist form
-router.get('/edit-receptionist/:id', itManagerController.renderEditReceptionistForm);
+// // GET edit receptionist form
+// router.get('/edit-receptionist/:id', itManagerController.renderEditReceptionistForm);
 
-// POST update receptionist
-router.post('/update-receptionist/:id', itManagerController.updateReceptionist);
+// // POST update receptionist
+// router.post('/update-receptionist/:id', itManagerController.updateReceptionist);
 
-// POST delete receptionist
-router.post('/delete-receptionist/:id', itManagerController.deleteReceptionist);
+// // POST delete receptionist
+// router.post('/delete-receptionist/:id', itManagerController.deleteReceptionist);
 
-// GET edit IT manager form
-router.get('/edit-it-manager/:id', itManagerController.renderEditITManagerForm);
+// // GET edit IT manager form
+// router.get('/edit-it-manager/:id', itManagerController.renderEditITManagerForm);
 
-// POST update IT manager
-router.post('/update-it-manager/:id', itManagerController.updateITManager);
+// // POST update IT manager
+// router.post('/update-it-manager/:id', itManagerController.updateITManager);
 
-// POST delete IT manager
-router.post('/delete-it-manager/:id', itManagerController.deleteITManager);
+// // POST delete IT manager
+// router.post('/delete-it-manager/:id', itManagerController.deleteITManager);
 
-// GET patient profile
-router.get('/patient/:id', itManagerController.renderPatientProfile);
+// // GET patient profile
+// router.get('/patient/:id', itManagerController.renderPatientProfile);
 
 module.exports = router;

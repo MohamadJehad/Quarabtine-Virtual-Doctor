@@ -1,0 +1,152 @@
+<%- contentFor('body') %>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top" >
+  <div class="container d-flex align-items-center">
+    <h1 class="logo me-auto"><a href="/">Quarantine Virtual Doctor</a></h1>
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Menu
+          </a>
+          <ul class="dropdown-menu" style="position: fixed; top: 50px; width: 30px; left: 88%; z-index: 1000;" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Dashboard</a></li>
+            <li><a class="dropdown-item" href="#">Patients</a></li>
+            <li><a class="dropdown-item" href="#">Appointments</a></li>
+            <li><a class="dropdown-item" href="#">Video Calls</a></li>
+            <li><a class="dropdown-item" href="#">Reports</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Help</a></li>
+            <li><a class="dropdown-item" href="/auth/logout">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </div>
+</header><!-- End Header -->
+
+<main id="main" style="margin-top: 100px;">
+  <section class="inner-page">
+    <div class="container">
+      <div class="section-title">
+        <h2>Doctor Dashboard</h2>
+        <p>Welcome back, Doctor. Here's an overview of your patients and their status.</p>
+      </div>
+      <!-- Dashboard Stats -->
+      <div class="row dashboard-stats">
+        <div class="col-md-3">
+          <div class="stat-card bg-gradient-primary">
+            <i class="fas fa-user-injured"></i>
+            <h3><%= patients.length %></h3>
+            <p>Total Patients</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card bg-gradient-success">
+            <i class="fas fa-procedures"></i>
+            <h3><%= Math.floor(patients.length * 0.7) %></h3>
+            <p>Stable Patients</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card bg-gradient-warning">
+            <i class="fas fa-heartbeat"></i>
+            <h3><%= Math.floor(patients.length * 0.2) %></h3>
+            <p>Needs Attention</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card bg-gradient-info">
+            <i class="fas fa-video"></i>
+            <h3><a href="/doctor/video-call" style="color: white;">Start</a></h3>
+            <p>Video Call</p>
+          </div>
+        </div>
+      </div>
+      <!-- Search Bar -->
+      <div class="row search-container">
+        <div class="col-md-6 offset-md-3">
+          <div class="input-group">
+            <input type="text" id="patientSearch" class="form-control" placeholder="Search patients by name or ID...">
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Patients List -->
+      <div class="row" id="patientsList">
+        <% if(patients && patients.length > 0) { %>
+          <% patients.forEach(function(patient) { %>
+            <div class="col-md-4 mb-4">
+              <div class="card patient-card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title mb-0">
+                      <% if(patient.gender === 'Male') { %>
+                        <i class="fas fa-male text-primary"></i>
+                      <% } else { %>
+                        <i class="fas fa-female text-danger"></i>
+                      <% } %>
+                      <%= patient.FName %>
+                    </h5>
+                    <span class="badge bg-primary">Room <%= patient.room_id || 'N/A' %></span>
+                  </div>
+                  
+                  <p class="card-text">
+                    <small class="text-muted">
+                      <i class="fas fa-id-card"></i> ID: <%= patient.ID %><br>
+                      <i class="fas fa-birthday-cake"></i> DOB: <%= patient.birthDate ? new Date(patient.birthDate).toLocaleDateString() : 'N/A' %><br>
+                      <i class="fas fa-phone"></i> <%= patient.mobile || 'No phone' %>
+                    </small>
+                  </p>
+                  
+                  <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                      <span class="status-indicator <%= Math.random() > 0.7 ? 'status-normal' : (Math.random() > 0.5 ? 'status-warning' : 'status-danger') %>"></span>
+                      <small><%= Math.random() > 0.7 ? 'Normal' : (Math.random() > 0.5 ? 'Needs Check' : 'Critical') %></small>
+                    </div>
+                    <a href="/doctor/patient/<%= patient.ID %>" class="btn btn-sm btn-primary">View Profile</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <div class="col-12 text-center">
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              No patients assigned to you at the moment.
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+</main><!-- End #main -->
+
+<%- contentFor('head') %>
+<link rel="stylesheet" href="/styling/doctor.css">
+
+<%- contentFor('scripts') %>
+<script>
+  // Search functionality
+  document.getElementById('patientSearch').addEventListener('keyup', function() {
+    const searchTerm = this.value.toLowerCase();
+    const patientCards = document.querySelectorAll('.patient-card');
+    
+    patientCards.forEach(card => {
+      const patientName = card.querySelector('.card-title').textContent.toLowerCase();
+      const patientId = card.querySelector('.card-text').textContent.toLowerCase();
+      
+      if (patientName.includes(searchTerm) || patientId.includes(searchTerm)) {
+        card.parentElement.style.display = '';
+      } else {
+        card.parentElement.style.display = 'none';
+      }
+    });
+  });
+</script>

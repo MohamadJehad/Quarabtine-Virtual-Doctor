@@ -1,0 +1,514 @@
+<%- contentFor('body') %>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top" >
+  <div class="container d-flex align-items-center">
+    <h1 class="logo me-auto"><a href="/">Quarantine Virtual Doctor</a></h1>
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Menu
+          </a>
+          <ul class="dropdown-menu" style="position: fixed; top: 50px; width: 30px; left: 88%; z-index: 1000;" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#IT_Manager">IT Managers</a></li>
+            <li><a class="dropdown-item" href="#Doctor">Doctors</a></li>
+            <li><a class="dropdown-item" href="#Patient">Patients</a></li>
+            <li><a class="dropdown-item" href="#Nurse">Nurses</a></li>
+            <li><a class="dropdown-item" href="#Receptionist">Receptionists</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/auth/logout">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </div>
+</header><!-- End Header -->
+
+<main id="main" style="margin-top: 100px;">
+  <section class="inner-page">
+    <div class="container">
+      <div class="section-title">
+        <h2>IT Manager Dashboard</h2>
+        <p>Welcome back, IT Manager. Here's an overview of all users in the system.</p>
+      </div>
+
+      <!-- Dashboard Stats -->
+      <div class="row dashboard-stats">
+        <div class="col-md-2">
+          <div class="stat-card bg-gradient-primary">
+            <i class="fas fa-user-shield"></i>
+            <h3><%= IT_Manager.length %></h3>
+            <p>IT Managers</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="stat-card bg-gradient-success">
+            <i class="fas fa-user-md"></i>
+            <h3><%= doctors.length %></h3>
+            <p>Doctors</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="stat-card bg-gradient-warning">
+            <i class="fas fa-user-injured"></i>
+            <h3><%= patients.length %></h3>
+            <p>Patients</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="stat-card bg-gradient-info">
+            <i class="fas fa-user-nurse"></i>
+            <h3><%= nurses.length %></h3>
+            <p>Nurses</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="stat-card bg-gradient-danger">
+            <i class="fas fa-user-tie"></i>
+            <h3><%= Receptionist.length %></h3>
+            <p>Receptionists</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- IT Managers Section -->
+      <section id="IT_Manager" class="mt-5">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">IT Managers</h3>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Gender</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(IT_Manager && IT_Manager.length > 0) { %>
+                    <% IT_Manager.forEach(function(manager) { %>
+                      <tr>
+                        <td><%= manager.ID %></td>
+                        <td><%= manager.FName %></td>
+                        <td><%= manager.mobile %></td>
+                        <td><%= manager.username %></td>
+                        <td><%= manager.password %></td>
+                        <td><%= manager.gender %></td>
+                        <td>
+                          <a href="/it-manager/edit-it-manager/<%= manager.ID %>" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <form action="/it-manager/delete-it-manager/<%= manager.ID %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="7" class="text-center">No IT managers found</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-end mt-3">
+              <a href="/it-manager/add-it-manager" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New IT Manager
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Doctors Section -->
+      <section id="Doctor" class="mt-5">
+        <div class="card shadow">
+          <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Doctors</h3>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Specialization</th>
+                    <th>Mobile</th>
+                    <th>Username</th>
+                    <th>Gender</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(doctors && doctors.length > 0) { %>
+                    <% doctors.forEach(function(doctor) { %>
+                      <tr>
+                        <td><%= doctor.ID %></td>
+                        <td><%= doctor.FName %></td>
+                        <td><%= doctor.specialization %></td>
+                        <td><%= doctor.mobile %></td>
+                        <td><%= doctor.username %></td>
+                        <td><%= doctor.gender %></td>
+                        <td>
+                          <a href="/it-manager/patient/<%= doctor.ID %>" class="btn btn-sm btn-info">
+                            <i class="fas fa-eye"></i>
+                          </a>
+                          <a href="/it-manager/edit-doctor/<%= doctor.ID %>" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <form action="/it-manager/delete-doctor/<%= doctor.ID %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="7" class="text-center">No doctors found</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-end mt-3">
+              <a href="/it-manager/add-doctor" class="btn btn-success">
+                <i class="fas fa-plus"></i> Add New Doctor
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Patients Section -->
+      <section id="Patient" class="mt-5">
+        <div class="card shadow">
+          <div class="card-header bg-warning text-dark">
+            <h3 class="mb-0">Patients</h3>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Mobile</th>
+                    <th>Room</th>
+                    <th>Assigned Doctor</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(patients && patients.length > 0) { %>
+                    <% patients.forEach(function(patient) { %>
+                      <tr>
+                        <td><%= patient.ID %></td>
+                        <td><%= patient.FName %></td>
+                        <td><%= patient.gender %></td>
+                        <td><%= patient.mobile %></td>
+                        <td><%= patient.room_id || 'Not Assigned' %></td>
+                        <td><%= patient.assigned_doctor %></td>
+                        <td>
+                          <a href="/it-manager/patient/<%= patient.ID %>" class="btn btn-sm btn-info">
+                            <i class="fas fa-eye"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="7" class="text-center">No patients found</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Nurses Section -->
+      <section id="Nurse" class="mt-5">
+        <div class="card shadow">
+          <div class="card-header bg-info text-white">
+            <h3 class="mb-0">Nurses</h3>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Username</th>
+                    <th>Gender</th>
+                    <th>Floor</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(nurses && nurses.length > 0) { %>
+                    <% nurses.forEach(function(nurse) { %>
+                      <tr>
+                        <td><%= nurse.id %></td>
+                        <td><%= nurse.name %></td>
+                        <td><%= nurse.phone %></td>
+                        <td><%= nurse.username %></td>
+                        <td><%= nurse.gender %></td>
+                        <td><%= nurse.floor %></td>
+                        <td>
+                          <a href="/it-manager/edit-nurse/<%= nurse.id %>" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <form action="/it-manager/delete-nurse/<%= nurse.id %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="7" class="text-center">No nurses found</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-end mt-3">
+              <a href="/it-manager/add-nurse" class="btn btn-info">
+                <i class="fas fa-plus"></i> Add New Nurse
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Receptionists Section -->
+      <section id="Receptionist" class="mt-5">
+        <div class="card shadow">
+          <div class="card-header bg-danger text-white">
+            <h3 class="mb-0">Receptionists</h3>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Username</th>
+                    <th>Gender</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(Receptionist && Receptionist.length > 0) { %>
+                    <% Receptionist.forEach(function(receptionist) { %>
+                      <tr>
+                        <td><%= receptionist.id %></td>
+                        <td><%= receptionist.FName %></td>
+                        <td><%= receptionist.mobile %></td>
+                        <td><%= receptionist.username %></td>
+                        <td><%= receptionist.Gender %></td>
+                        <td>
+                          <a href="/it-manager/edit-receptionist/<%= receptionist.id %>" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <form action="/it-manager/delete-receptionist/<%= receptionist.id %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="6" class="text-center">No receptionists found</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-end mt-3">
+              <a href="/it-manager/add-receptionist" class="btn btn-danger">
+                <i class="fas fa-plus"></i> Add New Receptionist
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+  <div class="container">
+    <div class="copyright">
+      &copy; <strong><span>QUARANTINE VIRTUAL DOCTOR</span></strong>.
+      <br>
+      <strong><a href="http://www.helwan.edu.eg">Faculty Of Engineering - Helwan University</a></strong>
+      <br>
+    </div>
+  </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<div id="preloader"></div>
+
+<%- contentFor('head') %>
+<style>
+  .patient-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .patient-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  .status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .status-normal {
+    background-color: #28a745;
+  }
+  .status-warning {
+    background-color: #ffc107;
+  }
+  .status-danger {
+    background-color: #dc3545;
+  }
+  .search-container {
+    margin-bottom: 20px;
+  }
+  .dashboard-stats {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .stat-card {
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+  }
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+  .stat-card i {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  .stat-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+  }
+  .stat-card p {
+    font-size: 1rem;
+    margin-bottom: 0;
+    color: #6c757d;
+  }
+  .bg-gradient-primary {
+    background: linear-gradient(45deg, #4e73df, #224abe);
+    color: white;
+  }
+  .bg-gradient-success {
+    background: linear-gradient(45deg, #1cc88a, #13855c);
+    color: white;
+  }
+  .bg-gradient-info {
+    background: linear-gradient(45deg, #36b9cc, #258391);
+    color: white;
+  }
+  .bg-gradient-warning {
+    background: linear-gradient(45deg, #f6c23e, #dda20a);
+    color: white;
+  }
+  .bg-gradient-danger {
+    background: linear-gradient(45deg, #e74a3b, #be2617);
+    color: white;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 15px 20px;
+  }
+  .card-header h3 {
+    font-size: 1.5rem;
+  }
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+</style>
+
+<%- contentFor('scripts') %>
+<script>
+  // Search functionality for patients
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInputs = document.querySelectorAll('input[type="text"][placeholder*="Search"]');
+    
+    searchInputs.forEach(input => {
+      input.addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        const tableId = this.getAttribute('data-table');
+        const table = document.getElementById(tableId);
+        
+        if (table) {
+          const rows = table.querySelectorAll('tbody tr');
+          
+          rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        }
+      });
+    });
+    
+    // Add confirmation for delete actions
+    const deleteForms = document.querySelectorAll('form[action*="delete"]');
+    deleteForms.forEach(form => {
+      form.addEventListener('submit', function(e) {
+        if (!confirm('Are you sure you want to delete this record? This action cannot be undone.')) {
+          e.preventDefault();
+        }
+      });
+    });
+  });
+</script>

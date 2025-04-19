@@ -1,0 +1,70 @@
+.patient-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.patient-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+.status-normal {
+  background-color: #28a745;
+}
+.status-warning {
+  background-color: #ffc107;
+}
+.status-danger {
+  background-color: #dc3545;
+}
+.search-container {
+  margin-bottom: 20px;
+}
+.dashboard-stats {
+  margin-bottom: 30px;
+}
+.stat-card {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+.stat-card i {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+.stat-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+.stat-card p {
+  font-size: 1rem;
+  margin-bottom: 0;
+  color: #6c757d;
+}
+.bg-gradient-primary {
+  background: linear-gradient(45deg, #4e73df, #224abe);
+  color: white;
+}
+.bg-gradient-success {
+  background: linear-gradient(45deg, #1cc88a, #13855c);
+  color: white;
+}
+.bg-gradient-info {
+  background: linear-gradient(45deg, #36b9cc, #258391);
+  color: white;
+}
+.bg-gradient-warning {
+  background: linear-gradient(45deg, #f6c23e, #dda20a);
+  color: white;
+}

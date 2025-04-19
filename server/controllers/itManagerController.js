@@ -4,6 +4,10 @@ const Nurse = require('../models/nurseModel');
 const Patient = require('../models/patientModel');
 const Receptionist = require('../models/receptionistModel');
 
+exports.testRoute = (_, res) => {
+  res.send('IT Manager test route works!');
+};
+
 exports.renderAddITManagerForm = async (res) => {
   try {
     res.render('it-manager/add');
@@ -33,7 +37,7 @@ exports.addITManager = async (req, res) => {
   }
 };
 
-exports.renderITManagerHome = async (res) => {
+exports.renderITManagerHome = async (_, res) => {
   try {
     const itManagers = await ITManager.getAll();
     const doctors = await Doctor.getAll();
@@ -51,6 +55,42 @@ exports.renderITManagerHome = async (res) => {
   } catch (error) {
     console.error('Error rendering IT manager home:', error);
     res.status(500).render('errors/500', { error: 'Failed to load IT manager home' });
+  }
+};
+
+exports.renderAddDoctorForm = async (_, res) => {
+  try {
+    // Render the add doctor form view
+    res.render('it-manager/add-doctor');
+  } catch (error) {
+    console.error('Error rendering add doctor form:', error);
+    res.status(500).render('errors/500', { error: 'Failed to load add doctor form' });
+  }
+};
+
+exports.addDoctor = async (req, res) => {
+  try {
+    const { FName, gender, username, password, specialization, mobile, city, street, buildingNo } =
+      req.body;
+    console.log({ gender });
+    // Create doctor
+    await Doctor.create({
+      FName,
+      gender: req.body.Male ? 'Male' : 'Female',
+      username,
+      password,
+      specialization,
+      mobile,
+      city,
+      street,
+      buildingNo,
+    });
+
+    // Redirect to IT manager home page after successful creation
+    res.redirect('/it-manager/home');
+  } catch (error) {
+    console.error('Error adding doctor:', error);
+    res.status(500).render('errors/500', { error: 'Failed to add doctor' });
   }
 };
 
