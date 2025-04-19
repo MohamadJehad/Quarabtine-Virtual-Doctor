@@ -31,7 +31,7 @@ class Nurse {
   static create(nurseData) {
     return new Promise((resolve, reject) => {
       const { Name, username, password, phone, gender, floor } = nurseData;
-      
+
       db.query(
         `INSERT INTO nurse (Name, username, password, phone, gender, floor)
          VALUES (?, ?, ?, ?, ?, ?)`,
@@ -47,7 +47,7 @@ class Nurse {
   static update(id, nurseData) {
     return new Promise((resolve, reject) => {
       const { Name, username, password, phone, gender, floor } = nurseData;
-      
+
       db.query(
         `UPDATE nurse SET 
          Name = ?, username = ?, password = ?, phone = ?, gender = ?, floor = ?
@@ -62,13 +62,13 @@ class Nurse {
   }
 
   static delete(id) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       try {
         // Delete related records first
-        await db.promise().query('DELETE FROM n_monitor_p WHERE nurse_id = ?', [id]);
-        
+        db.promise().query('DELETE FROM n_monitor_p WHERE nurse_id = ?', [id]);
+
         // Delete the nurse
-        const [result] = await db.promise().query('DELETE FROM nurse WHERE id = ?', [id]);
+        const [result] = db.promise().query('DELETE FROM nurse WHERE id = ?', [id]);
         resolve(result.affectedRows > 0);
       } catch (err) {
         reject(err);
@@ -109,7 +109,7 @@ class Nurse {
     return new Promise((resolve, reject) => {
       const currentDate = new Date().toISOString().slice(0, 10);
       const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
-      
+
       db.query(
         `INSERT INTO n_monitor_p (date, time, nurse_id, patient_id)
          VALUES (?, ?, ?, ?)`,

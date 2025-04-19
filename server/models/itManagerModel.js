@@ -22,7 +22,7 @@ class ITManager {
   static create(managerData) {
     return new Promise((resolve, reject) => {
       const { FName, username, password, mobile, gender } = managerData;
-      
+
       db.query(
         `INSERT INTO IT_Manager (FName, username, password, mobile, gender)
          VALUES (?, ?, ?, ?, ?)`,
@@ -38,7 +38,7 @@ class ITManager {
   static update(id, managerData) {
     return new Promise((resolve, reject) => {
       const { FName, username, password, mobile, gender } = managerData;
-      
+
       db.query(
         `UPDATE IT_Manager SET 
          FName = ?, username = ?, password = ?, mobile = ?, gender = ?

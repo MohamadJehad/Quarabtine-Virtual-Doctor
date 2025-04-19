@@ -22,7 +22,7 @@ class Receptionist {
   static create(receptionistData) {
     return new Promise((resolve, reject) => {
       const { FName, username, password, mobile, gender } = receptionistData;
-      
+
       db.query(
         `INSERT INTO Receptionist (FName, username, password, mobile, gender)
          VALUES (?, ?, ?, ?, ?)`,
@@ -38,7 +38,7 @@ class Receptionist {
   static update(id, receptionistData) {
     return new Promise((resolve, reject) => {
       const { FName, username, password, mobile, gender } = receptionistData;
-      
+
       db.query(
         `UPDATE Receptionist SET 
          FName = ?, username = ?, password = ?, mobile = ?, gender = ?
@@ -73,13 +73,13 @@ class Receptionist {
       );
     });
   }
-  
+
   static getAvailableRooms() {
     return new Promise((resolve, reject) => {
       db.query('SELECT room_id FROM patient', (err, results) => {
         if (err) return reject(err);
         // Extract occupied room IDs
-        const occupiedRooms = results.map(row => row.room_id);
+        const occupiedRooms = results.map((row) => row.room_id);
         resolve(occupiedRooms);
       });
     });

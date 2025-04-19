@@ -14,7 +14,7 @@ class Doctor {
       db.query('SELECT * FROM doctor WHERE ID = ?', [id], (err, results) => {
         if (err) return reject(err);
         if (results.length === 0) return reject(new Error('Doctor not found'));
-        const doctor= results[0];
+        const doctor = results[0];
         resolve(doctor);
       });
     });
@@ -22,8 +22,18 @@ class Doctor {
 
   static create(doctorData) {
     return new Promise((resolve, reject) => {
-      const { FName, gender, username, password, specialization, mobile, city, street, buildingNo } = doctorData;
-      
+      const {
+        FName,
+        gender,
+        username,
+        password,
+        specialization,
+        mobile,
+        city,
+        street,
+        buildingNo,
+      } = doctorData;
+
       db.query(
         `INSERT INTO doctor (FName, gender, username, password, specialization, mobile, city, street, buildingNo)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -38,15 +48,39 @@ class Doctor {
 
   static update(doctorData) {
     return new Promise((resolve, reject) => {
-      const { ID, FName, gender, username, password, specialization, mobile, city, street, buildingNo, birthDate } = doctorData;
-      
+      const {
+        ID,
+        FName,
+        gender,
+        username,
+        password,
+        specialization,
+        mobile,
+        city,
+        street,
+        buildingNo,
+        birthDate,
+      } = doctorData;
+
       db.query(
         `UPDATE doctor SET 
          FName = ?, gender = ?, username = ?, password = ?, 
          specialization = ?, mobile = ?, city = ?, street = ?, 
          buildingNo = ?, birthDate = ? 
          WHERE ID = ?`,
-        [FName, gender, username, password, specialization, mobile, city, street, buildingNo, birthDate, ID],
+        [
+          FName,
+          gender,
+          username,
+          password,
+          specialization,
+          mobile,
+          city,
+          street,
+          buildingNo,
+          birthDate,
+          ID,
+        ],
         (err, result) => {
           if (err) return reject(err);
           resolve(result.affectedRows > 0);
@@ -64,7 +98,7 @@ class Doctor {
     });
   }
 
-  static authenticate(username, password){
+  static authenticate(username, password) {
     return new Promise((resolve, reject) => {
       db.query(
         'SELECT * FROM doctor WHERE username = ? AND password = ?',

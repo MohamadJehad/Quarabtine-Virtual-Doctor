@@ -70,21 +70,28 @@ class Patient {
 
   static getStatus(patientId) {
     return new Promise((resolve, reject) => {
-      db.query(
-        'SELECT * FROM patient_status WHERE patient_id = ?',
-        [patientId],
-        (err, results) => {
-          if (err) return reject(err);
-          resolve(results[0]);
-        }
-      );
+      db.query('SELECT * FROM patient_status WHERE patient_id = ?', [patientId], (err, results) => {
+        if (err) return reject(err);
+        resolve(results[0]);
+      });
     });
   }
 
   static create(patientData) {
     return new Promise((resolve, reject) => {
-      const { FName, gender, weight, birthDate, mobile, city, street, buildingNo, doctorId, roomId } = patientData;
-      
+      const {
+        FName,
+        gender,
+        weight,
+        birthDate,
+        mobile,
+        city,
+        street,
+        buildingNo,
+        doctorId,
+        roomId,
+      } = patientData;
+
       db.query(
         `INSERT INTO patient (FName, gender, weight, birthDate, mobile, city, street, buildingNo, doctor_id, room_id)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -99,8 +106,9 @@ class Patient {
 
   static update(id, patientData) {
     return new Promise((resolve, reject) => {
-      const { FName, gender, weight, birthDate, mobile, city, street, buildingNo, roomId } = patientData;
-      
+      const { FName, gender, weight, birthDate, mobile, city, street, buildingNo, roomId } =
+        patientData;
+
       db.query(
         `UPDATE patient SET 
          FName = ?, gender = ?, weight = ?, birthDate = ?, 
@@ -116,16 +124,16 @@ class Patient {
   }
 
   static delete(id) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       try {
         // Delete related records first
-        await db.promise().query('DELETE FROM n_monitor_p WHERE patient_id = ?', [id]);
-        await db.promise().query('DELETE FROM healthindicator WHERE patient_id = ?', [id]);
-        await db.promise().query('DELETE FROM patient_status WHERE patient_id = ?', [id]);
-        await db.promise().query('DELETE FROM patient_situation WHERE patient_id = ?', [id]);
-        
+        db.promise().query('DELETE FROM n_monitor_p WHERE patient_id = ?', [id]);
+        db.promise().query('DELETE FROM healthindicator WHERE patient_id = ?', [id]);
+        db.promise().query('DELETE FROM patient_status WHERE patient_id = ?', [id]);
+        db.promise().query('DELETE FROM patient_situation WHERE patient_id = ?', [id]);
+
         // Delete the patient
-        const [result] = await db.promise().query('DELETE FROM patient WHERE ID = ?', [id]);
+        const [result] = db.promise().query('DELETE FROM patient WHERE ID = ?', [id]);
         resolve(result.affectedRows > 0);
       } catch (err) {
         reject(err);
@@ -136,7 +144,7 @@ class Patient {
   static addHealthStatus(statusData) {
     return new Promise((resolve, reject) => {
       const { patientId, bloodpressure, diabetes, heartdisease, pregnant, allergies } = statusData;
-      
+
       db.query(
         `INSERT INTO patient_status (patient_id, bloodpressure, diabetes, heartdisease, pregnant, allergies)
          VALUES (?, ?, ?, ?, ?, ?)`,
@@ -154,7 +162,7 @@ class Patient {
       const { patientId, situation, medicine } = situationData;
       const currentDate = new Date().toISOString().slice(0, 10);
       const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
-      
+
       db.query(
         `INSERT INTO patient_situation (Situation, Medicine, patient_id, date, time)
          VALUES (?, ?, ?, ?, ?)`,
@@ -171,7 +179,7 @@ class Patient {
     return new Promise((resolve, reject) => {
       const currentDate = new Date().toISOString().slice(0, 10);
       const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
-      
+
       db.query(
         `UPDATE patient_situation SET medicine = ?, date = ?, time = ? WHERE id = ?`,
         [medicine, currentDate, currentTime, situationId],
@@ -209,7 +217,7 @@ class Patient {
     return new Promise((resolve, reject) => {
       db.query('SELECT room_id FROM patient', (err, results) => {
         if (err) return reject(err);
-        resolve(results.map(row => row.room_id));
+        resolve(results.map((row) => row.room_id));
       });
     });
   }
