@@ -1,5 +1,5 @@
-const Patient = require('../models/Patient');
-const Doctor = require('../models/Doctor');
+const Patient = require('../models/patientModel');
+const Doctor = require('../models/doctorModel');
 
 exports.renderAddPatientForm = async (res) => {
   try {

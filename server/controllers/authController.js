@@ -1,7 +1,7 @@
-const Doctor = require('../models/Doctor');
-const Nurse = require('../models/Nurse');
-const ITManager = require('../models/ITManager');
-const Receptionist = require('../models/Receptionist');
+const Doctor = require('../models/doctorModel');
+const Nurse = require('../models/nurseModel');
+const ITManager = require('../models/itManagerModel');
+const Receptionist = require('../models/receptionistModel');
 
 exports.login = async (req, res) => {
   try {
@@ -58,6 +58,6 @@ exports.logout = (req, res) => {
   });
 };
 
-exports.renderLoginPage = (res) => {
-  res.render('auth/login', { error: null });
+exports.renderLoginPage = (_, res) => {
+  res.render('auth/login');
 };
