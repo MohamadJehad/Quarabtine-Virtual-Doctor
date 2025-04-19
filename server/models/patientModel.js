@@ -33,6 +33,26 @@ class Patient {
     });
   }
 
+  static getByRoomIds(roomIds) {
+    return new Promise((resolve, reject) => {
+      // Convert array to comma-separated string for SQL IN clause
+      const roomIdsString = roomIds.join(',');
+      
+      db.query(
+        `SELECT p.ID, p.FName, p.gender, p.birthDate, p.weight, p.mobile, 
+         p.city, p.street, p.buildingNo, p.room_id, doctor.FName as assigned_doctor 
+         FROM patient as p 
+         JOIN doctor ON p.doctor_id = doctor.ID
+         WHERE p.room_id IN (${roomIdsString})`,
+        (err, results) => {
+          if (err) return reject(err);
+          resolve(results);
+        }
+      );
+    });
+  }
+  
+
   static getByDoctorId(doctorId) {
     return new Promise((resolve, reject) => {
       db.query('SELECT * FROM patient WHERE doctor_id = ?', [doctorId], (err, results) => {
