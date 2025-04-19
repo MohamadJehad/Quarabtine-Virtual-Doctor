@@ -36,7 +36,9 @@ const authRoutes = require('./routes/authRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const itManagerRoutes = require('./routes/itManagerRoutes');
 const nurseRoutes = require('./routes/nurseRoutes');
-const  nurseController = require('./controllers/nurseController');
+const nurseController = require('./controllers/nurseController');
+const receptionistRoutes = require('./routes/receptionistRoutes');
+
 // Use routes
 app.use('/auth', authRoutes);
 
@@ -44,6 +46,7 @@ app.use('/doctor', doctorRoutes);
 // And this line
 app.use('/it-manager', itManagerRoutes);
 app.use('/nurse', nurseRoutes);
+app.use('/receptionist', receptionistRoutes);
 // ... other route uses
 
 // Import models
