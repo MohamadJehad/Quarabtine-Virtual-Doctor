@@ -89,7 +89,7 @@ class Nurse {
     });
   }
 
-  static getMonitoredPatients(nurseId) {
+  static getPatientMonitoring(nurseId) {
     return new Promise((resolve, reject) => {
       db.query(
         `SELECT p.*, n.date, n.time 
