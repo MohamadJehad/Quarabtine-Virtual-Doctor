@@ -58,8 +58,7 @@ exports.logout = (req, res) => {
   });
 };
 
-exports.renderLoginPage = (req, res) => {
-  // eslint-disable-line no-unused-vars
+exports.renderLoginPage = (_, res) => {
 
   res.render('auth/login');
 };

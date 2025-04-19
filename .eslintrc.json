@@ -15,6 +15,7 @@
       {
         "vars": "all",
         "args": "all",
+        "argsIgnorePattern": "^_" ,
         "ignoreRestSiblings": true
       }
     ]
