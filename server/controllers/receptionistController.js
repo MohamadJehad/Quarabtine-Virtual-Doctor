@@ -2,7 +2,8 @@ const Receptionist = require('../models/receptionistModel');
 const Patient = require('../models/patientModel');
 const Nurse = require('../models/nurseModel');
 const Doctor = require('../models/doctorModel');
-exports.renderAddReceptionistForm = async (res) => {
+
+exports.renderAddReceptionistForm = async (_, res) => {
   try {
     res.render('receptionist/add');
   } catch (error) {
@@ -13,17 +14,17 @@ exports.renderAddReceptionistForm = async (res) => {
 
 exports.addReceptionist = async (req, res) => {
   try {
-    const { FName, gender, username, password, mobile } = req.body;
-    console.log({ gender });
+    const { FName, username, password, mobile } = req.body;
+
     // Create receptionist
-    const receptionistId = await Receptionist.create({
+    await Receptionist.create({
       FName,
       gender: req.body.Male ? 'Male' : 'Female',
       username,
       password,
       mobile,
     });
-    console.log({ receptionistId });
+
     // Redirect based on user role
     if (req.session.role === 'IT_Manager') {
       res.redirect('/it-manager/home');
@@ -36,11 +37,11 @@ exports.addReceptionist = async (req, res) => {
   }
 };
 
-exports.renderReceptionistHome = async (res) => {
+exports.renderReceptionistHome = async (_, res) => {
   try {
     const patients = await Patient.getAll();
     const nurses = await Nurse.getAll();
-    const nursePatientMonitoring = await Nurse.getAllPatientMonitoring();
+    const nursePatientMonitoring = await Receptionist.getAllPatientMonitoring();
 
     res.render('receptionist/home', {
       patients,
@@ -72,8 +73,8 @@ exports.renderEditReceptionistForm = async (req, res) => {
 exports.updateReceptionist = async (req, res) => {
   try {
     const receptionistId = req.params.id;
-    const { FName, gender, username, password, mobile } = req.body;
-    console.log({ gender });
+    const { FName, username, password, mobile } = req.body;
+
     const success = await Receptionist.update(receptionistId, {
       FName,
       gender: req.body.Male ? 'Male' : 'Female',
@@ -173,7 +174,7 @@ exports.assignRoom = async (req, res) => {
   }
 };
 
-exports.renderAddPatientForm = async (res) => {
+exports.renderAddPatientForm = async (_, res) => {
   try {
     const doctors = await Doctor.getAll();
     res.render('receptionist/add-patient', { doctors });
@@ -187,7 +188,6 @@ exports.addPatient = async (req, res) => {
   try {
     const {
       FName,
-      //   gender,
       weight,
       birthDate,
       mobile,
