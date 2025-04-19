@@ -1,4 +1,4 @@
-const Patient = require('../models/Patient');
+const Patient = require('../models/patientModel');
 const mqttService = require('../services/mqttService');
 const videoService = require('../services/videoService');
 
