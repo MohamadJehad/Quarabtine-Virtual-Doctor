@@ -1,7 +1,7 @@
 const Nurse = require('../models/nurseModel');
 const Patient = require('../models/patientModel');
 
-exports.renderAddNurseForm = async (req, res) => {
+exports.renderAddNurseForm = async (res) => {
   try {
     res.render('nurse/add');
   } catch (error) {
@@ -13,7 +13,7 @@ exports.renderAddNurseForm = async (req, res) => {
 exports.addNurse = async (req, res) => {
   try {
     const { Name, gender, username, password, phone, floor } = req.body;
-
+    console.log({ gender });
     // Create nurse
     const nurseId = await Nurse.create({
       Name,
@@ -23,6 +23,7 @@ exports.addNurse = async (req, res) => {
       phone,
       floor,
     });
+    console.log({ nurseId });
 
     // Redirect based on user role
     if (req.session.role === 'IT_Manager') {
@@ -72,7 +73,7 @@ exports.updateNurse = async (req, res) => {
   try {
     const nurseId = req.params.id;
     const { Name, gender, username, password, phone, floor } = req.body;
-
+    console.log({ gender });
     const success = await Nurse.update(nurseId, {
       Name,
       gender: req.body.Male ? 'Male' : 'Female',

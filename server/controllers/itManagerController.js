@@ -4,7 +4,7 @@ const Nurse = require('../models/nurseModel');
 const Patient = require('../models/patientModel');
 const Receptionist = require('../models/receptionistModel');
 
-exports.renderAddITManagerForm = async (req, res) => {
+exports.renderAddITManagerForm = async (res) => {
   try {
     res.render('it-manager/add');
   } catch (error) {
@@ -16,9 +16,9 @@ exports.renderAddITManagerForm = async (req, res) => {
 exports.addITManager = async (req, res) => {
   try {
     const { FName, gender, username, password, mobile } = req.body;
-
+    console.log({ gender });
     // Create IT manager
-    const managerId = await ITManager.create({
+    await ITManager.create({
       FName,
       gender: req.body.Male ? 'Male' : 'Female',
       username,
@@ -33,7 +33,7 @@ exports.addITManager = async (req, res) => {
   }
 };
 
-exports.renderITManagerHome = async (req, res) => {
+exports.renderITManagerHome = async (res) => {
   try {
     const itManagers = await ITManager.getAll();
     const doctors = await Doctor.getAll();
@@ -74,7 +74,7 @@ exports.updateITManager = async (req, res) => {
   try {
     const managerId = req.params.id;
     const { FName, gender, username, password, mobile } = req.body;
-
+    console.log({ gender });
     const success = await ITManager.update(managerId, {
       FName,
       gender: req.body.Male ? 'Male' : 'Female',

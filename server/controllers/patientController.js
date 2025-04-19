@@ -1,7 +1,7 @@
 const Patient = require('../models/Patient');
 const Doctor = require('../models/Doctor');
 
-exports.renderAddPatientForm = async (req, res) => {
+exports.renderAddPatientForm = async (res) => {
   try {
     const doctors = await Doctor.getAll();
     res.render('patient/add', { doctors });
@@ -15,7 +15,7 @@ exports.addPatient = async (req, res) => {
   try {
     const {
       FName,
-      gender,
+      //   gender,
       weight,
       birthDate,
       mobile,

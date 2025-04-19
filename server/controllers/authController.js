@@ -58,6 +58,6 @@ exports.logout = (req, res) => {
   });
 };
 
-exports.renderLoginPage = (req, res) => {
+exports.renderLoginPage = (res) => {
   res.render('auth/login', { error: null });
 };

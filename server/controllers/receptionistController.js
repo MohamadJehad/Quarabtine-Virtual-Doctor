@@ -1,8 +1,8 @@
 const Receptionist = require('../models/receptionistModel');
 const Patient = require('../models/patientModel');
 const Nurse = require('../models/nurseModel');
-
-exports.renderAddReceptionistForm = async (req, res) => {
+const Doctor = require('../models/doctorModel');
+exports.renderAddReceptionistForm = async (res) => {
   try {
     res.render('receptionist/add');
   } catch (error) {
@@ -14,7 +14,7 @@ exports.renderAddReceptionistForm = async (req, res) => {
 exports.addReceptionist = async (req, res) => {
   try {
     const { FName, gender, username, password, mobile } = req.body;
-
+    console.log({ gender });
     // Create receptionist
     const receptionistId = await Receptionist.create({
       FName,
@@ -23,7 +23,7 @@ exports.addReceptionist = async (req, res) => {
       password,
       mobile,
     });
-
+    console.log({ receptionistId });
     // Redirect based on user role
     if (req.session.role === 'IT_Manager') {
       res.redirect('/it-manager/home');
@@ -36,7 +36,7 @@ exports.addReceptionist = async (req, res) => {
   }
 };
 
-exports.renderReceptionistHome = async (req, res) => {
+exports.renderReceptionistHome = async (res) => {
   try {
     const patients = await Patient.getAll();
     const nurses = await Nurse.getAll();
@@ -73,7 +73,7 @@ exports.updateReceptionist = async (req, res) => {
   try {
     const receptionistId = req.params.id;
     const { FName, gender, username, password, mobile } = req.body;
-
+    console.log({ gender });
     const success = await Receptionist.update(receptionistId, {
       FName,
       gender: req.body.Male ? 'Male' : 'Female',
@@ -173,7 +173,7 @@ exports.assignRoom = async (req, res) => {
   }
 };
 
-exports.renderAddPatientForm = async (req, res) => {
+exports.renderAddPatientForm = async (res) => {
   try {
     const doctors = await Doctor.getAll();
     res.render('receptionist/add-patient', { doctors });
@@ -187,7 +187,7 @@ exports.addPatient = async (req, res) => {
   try {
     const {
       FName,
-      gender,
+      //   gender,
       weight,
       birthDate,
       mobile,

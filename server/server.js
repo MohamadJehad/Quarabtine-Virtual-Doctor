@@ -23,91 +23,91 @@ const patientController = require('./controllers/patientController');
 
 // Basic API routes for testing
 // Get all doctors
-app.get('/api/doctors', async (req, res) => {
+app.get('/api/doctors', async (res) => {
   try {
     const doctors = await Doctor.getAll();
     res.status(200).json({
       success: true,
       count: doctors.length,
-      data: doctors
+      data: doctors,
     });
   } catch (error) {
     console.error('Error fetching doctors:', error);
     res.status(500).json({
       success: false,
-      error: 'Server Error'
+      error: 'Server Error',
     });
   }
 });
 
 // Get all patients
-app.get('/api/patients', async (req, res) => {
+app.get('/api/patients', async (res) => {
   try {
     const patients = await Patient.getAll();
     res.status(200).json({
       success: true,
       count: patients.length,
-      data: patients
+      data: patients,
     });
   } catch (error) {
     console.error('Error fetching patients:', error);
     res.status(500).json({
       success: false,
-      error: 'Server Error'
+      error: 'Server Error',
     });
   }
 });
 
 // Get all nurses
-app.get('/api/nurses', async (req, res) => {
+app.get('/api/nurses', async (res) => {
   try {
     const nurses = await Nurse.getAll();
     res.status(200).json({
       success: true,
       count: nurses.length,
-      data: nurses
+      data: nurses,
     });
   } catch (error) {
     console.error('Error fetching nurses:', error);
     res.status(500).json({
       success: false,
-      error: 'Server Error'
+      error: 'Server Error',
     });
   }
 });
 
 // Get all IT managers
-app.get('/api/it-managers', async (req, res) => {
+app.get('/api/it-managers', async (res) => {
   try {
     const managers = await ITManager.getAll();
     res.status(200).json({
       success: true,
       count: managers.length,
-      data: managers
+      data: managers,
     });
   } catch (error) {
     console.error('Error fetching IT managers:', error);
     res.status(500).json({
       success: false,
-      error: 'Server Error'
+      error: 'Server Error',
     });
   }
 });
 
 // Get all receptionists
-app.get('/api/receptionists', async (req, res) => {
+app.get('/api/receptionists', async (res) => {
   try {
     const receptionists = await Receptionist.getAll();
     res.status(200).json({
       success: true,
       count: receptionists.length,
-      data: receptionists
+      data: receptionists,
     });
   } catch (error) {
     console.error('Error fetching receptionists:', error);
     res.status(500).json({
       success: false,
-      error: 'Server Error'
+      error: 'Server Error',
     });
   }
 });
@@ -117,12 +117,14 @@ app.get('/api/receptionists', async (req, res) => {
 app.post('/api/nurses', (req, res) => {
   // Modify the controller method to work with API response
   req.session = {}; // Mock session for testing
-  
+
   const originalRender = res.render;
-  res.render = function(view, options) {
+  console.log({ originalRender });
+
+  res.render = function (view, options) {
     res.json({ view, options });
   };
-  
+
   nurseController.addNurse(req, res);
 });
 
@@ -130,10 +132,12 @@ app.post('/api/nurses', (req, res) => {
 app.get('/api/it-manager/dashboard', (req, res) => {
   // Modify the controller method to work with API response
   const originalRender = res.render;
-  res.render = function(view, options) {
+  console.log({ originalRender });
+
+  res.render = function (view, options) {
     res.json({ view, options });
   };
-  
+
   itManagerController.renderITManagerHome(req, res);
 });
 
@@ -141,16 +145,18 @@ app.get('/api/it-manager/dashboard', (req, res) => {
 app.put('/api/patients/:id/room', (req, res) => {
   // Modify the controller method to work with API response
   const originalRender = res.render;
-  res.render = function(view, options) {
+  console.log({ originalRender });
+
+  res.render = function (view, options) {
     res.json({ view, options });
   };
-  
+
   // Set up the request for the controller
   req.body = {
     patientId: req.params.id,
-    roomId: req.body.roomId
+    roomId: req.body.roomId,
   };
-  
+
   receptionistController.assignRoom(req, res);
 });
 
@@ -158,21 +164,22 @@ app.put('/api/patients/:id/room', (req, res) => {
 app.post('/api/patients/:id/health-questionnaire', (req, res) => {
   // Modify the controller method to work with API response
   const originalRender = res.render;
-  res.render = function(view, options) {
+  console.log({ originalRender });
+  res.render = function (view, options) {
     res.json({ view, options });
   };
-  
+
   // Set up the request for the controller
   req.body = {
     patientId: req.params.id,
-    ...req.body
+    ...req.body,
   };
-  
+
   patientController.submitHealthQuestionnaire(req, res);
 });
 
 // Routes
-app.get('/', (req, res) => {
+app.get('/', (res) => {
   res.send('Welcome to Quarantine Virtual Doctor API');
 });
 
