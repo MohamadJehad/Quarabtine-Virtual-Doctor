@@ -28,11 +28,22 @@ exports.renderHomePage = async (req, res) => {
 
     const patients = await Patient.getByRoomIds(roomNumbers);
 
-    res.render('nurse/home', { 
-      nurse, 
-      patients: patients,
+    // Get monitoring assignments for this nurse
+    const monitoringAssignments = await Nurse.getPatientMonitoring(nurseId);
+
+    // Add monitoring status to each patient
+    const patientsWithMonitoring = patients.map((patient) => {
+      const isMonitored = monitoringAssignments.some(
+        (assignment) => assignment.patient_id === patient.ID
+      );
+      return { ...patient, isMonitored };
+    });
+
+    res.render('nurse/home', {
+      nurse,
+      patients: patientsWithMonitoring,
       nurseID: nurseId,
-      title: 'Nurse Dashboard'
+      title: 'Nurse Dashboard',
     });
   } catch (error) {
     console.error('Error rendering nurse home page:', error);
