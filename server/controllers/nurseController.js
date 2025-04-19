@@ -9,6 +9,47 @@ exports.renderAddNurseForm = async (res) => {
     res.status(500).render('errors/500', { error: 'Failed to load add nurse form' });
   }
 };
+exports.renderHomePage = async (req, res) => {
+  try {
+    const nurseId = req.session.nurseID;
+    const nurse = await Nurse.getById(nurseId);
+
+    if (!nurse) {
+      return res.status(404).render('errors/404', { error: 'Nurse not found' });
+    }
+
+    // Get patients on the nurse's floor
+    const floor = nurse.floor;
+    const roomNumbers = [];
+
+    for (let i = 0; i < 10; i++) {
+      roomNumbers.push((floor - 1) * 10 + i + 1); // Adding 1 to start room numbers from 1
+    }
+
+    const patients = await Patient.getByRoomIds(roomNumbers);
+
+    // Get monitoring assignments for this nurse
+    const monitoringAssignments = await Nurse.getPatientMonitoring(nurseId);
+
+    // Add monitoring status to each patient
+    const patientsWithMonitoring = patients.map((patient) => {
+      const isMonitored = monitoringAssignments.some(
+        (assignment) => assignment.patient_id === patient.ID
+      );
+      return { ...patient, isMonitored };
+    });
+
+    res.render('nurse/home', {
+      nurse,
+      patients: patientsWithMonitoring,
+      nurseID: nurseId,
+      title: 'Nurse Dashboard',
+    });
+  } catch (error) {
+    console.error('Error rendering nurse home page:', error);
+    res.status(500).render('errors/500', { error: 'Failed to load nurse dashboard' });
+  }
+};
 
 exports.addNurse = async (req, res) => {
   try {

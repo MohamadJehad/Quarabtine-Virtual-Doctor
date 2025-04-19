@@ -84,6 +84,20 @@ class Receptionist {
       });
     });
   }
+  static getAllPatientMonitoring() {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT n.*, p.FName as patient_name, p.room_id 
+         FROM n_monitor_p n 
+         JOIN patient p ON n.patient_id = p.ID
+         ORDER BY n.date DESC, n.time DESC`,
+        (err, results) => {
+          if (err) return reject(err);
+          resolve(results);
+        }
+      );
+    });
+  }
 }
 
 module.exports = Receptionist;
