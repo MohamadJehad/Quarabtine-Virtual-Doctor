@@ -59,6 +59,5 @@ exports.logout = (req, res) => {
 };
 
 exports.renderLoginPage = (_, res) => {
-
   res.render('auth/login');
 };
