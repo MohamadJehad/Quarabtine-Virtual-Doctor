@@ -1,0 +1,208 @@
+<!-- IT Manager specific content -->
+<section id="patient-management" class="mt-5">
+  <div class="section-title">
+    <h2>Patient Management</h2>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Edit Patient Information</h5>
+        </div>
+        <div class="card-body">
+          <form action="/it-manager/update-patient" method="post">
+            <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+            
+            <div class="mb-3">
+              <label for="FName" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="FName" name="FName" value="<%= patients[0].FName %>" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="gender" class="form-label">Gender</label>
+              <select class="form-select" id="gender" name="gender" required>
+                <option value="Male" <%= patients[0].gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= patients[0].gender === 'Female' ? 'selected' : '' %>>Female</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="birthDate" class="form-label">Birth Date</label>
+              <input type="date" class="form-control" id="birthDate" name="birthDate" 
+                     value="<%= patients[0]?.birthDate %>" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="weight" class="form-label">Weight (kg)</label>
+              <input type="number" class="form-control" id="weight" name="weight" value="<%= patients[0].weight %>" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="mobile" class="form-label">Mobile Number</label>
+              <input type="text" class="form-control" id="mobile" name="mobile" value="<%= patients[0].mobile %>" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="city" class="form-label">City</label>
+              <input type="text" class="form-control" id="city" name="city" value="<%= patients[0].city %>" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="street" class="form-label">Street</label>
+              <input type="text" class="form-control" id="street" name="street" value="<%= patients[0].street %>" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="buildingNo" class="form-label">Building Number</label>
+              <input type="number" class="form-control" id="buildingNo" name="buildingNo" value="<%= patients[0].buildingNo %>" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="room_id" class="form-label">Room ID</label>
+              <input type="number" class="form-control" id="room_id" name="room_id" value="<%= patients[0].room_id || '' %>">
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="card shadow mb-4">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">Danger Zone</h5>
+        </div>
+        <div class="card-body">
+          <form action="/it-manager/delete-patient" method="post" onsubmit="return confirm('Are you sure you want to delete this patient? This action cannot be undone.');">
+            <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+            
+            <div class="alert alert-warning">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              Deleting a patient will permanently remove all their data from the system, including health records, treatment history, and monitoring data.
+            </div>
+            
+            <div class="d-grid">
+              <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash me-2"></i>Delete Patient
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Assign Nurse</h5>
+        </div>
+        <div class="card-body">
+          <form action="/it-manager/assign-nurse" method="post">
+            <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+            
+            <div class="mb-3">
+              <label for="nurse_id" class="form-label">Select Nurse</label>
+              <select class="form-select" id="nurse_id" name="nurse_id" required>
+                <option value="" selected disabled>Choose a nurse...</option>
+                <% nurses.forEach(function(nurse) { %>
+                  <option value="<%= nurse.id %>"><%= nurse.Name %> (Floor: <%= nurse.floor %>)</option>
+                <% }); %>
+              </select>
+            </div>
+            
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-user-nurse me-2"></i>Assign Nurse
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- System Information Section -->
+<section id="system-info" class="mt-5">
+  <div class="section-title">
+    <h2>System Information</h2>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">System Logs</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>User</th>
+                  <th>Action</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- This would be populated with actual log data from the database -->
+                <tr>
+                  <td><%= new Date().toLocaleString() %></td>
+                  <td>IT Manager</td>
+                  <td>View</td>
+                  <td>Accessed patient profile</td>
+                </tr>
+                <tr>
+                  <td><%= new Date(Date.now() - 86400000).toLocaleString() %></td>
+                  <td>Doctor</td>
+                  <td>Update</td>
+                  <td>Updated patient treatment plan</td>
+                </tr>
+                <tr>
+                  <td><%= new Date(Date.now() - 172800000).toLocaleString() %></td>
+                  <td>Nurse</td>
+                  <td>Measure</td>
+                  <td>Recorded new health indicators</td>
+                </tr>
+                <tr>
+                  <td><%= new Date(Date.now() - 259200000).toLocaleString() %></td>
+                  <td>Receptionist</td>
+                  <td>Assign</td>
+                  <td>Assigned patient to room <%= patients[0].room_id || 'N/A' %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  
+  <script>
+    // Any IT Manager specific JavaScript can go here
+    document.addEventListener('DOMContentLoaded', function() {
+      // Example: Form validation
+      const form = document.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', function(event) {
+          const birthDateInput = document.getElementById('birthDate');
+          const birthDate = new Date(birthDateInput.value);
+          const today = new Date();
+          
+          if (birthDate > today) {
+            event.preventDefault();
+            alert('Birth date cannot be in the future');
+            birthDateInput.focus();
+          }
+        });
+      }
+    });
+  </script>
+  
