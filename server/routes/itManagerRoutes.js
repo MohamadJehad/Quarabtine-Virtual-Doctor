@@ -19,10 +19,10 @@ router.get('/add-doctor', itManagerController.renderAddDoctorForm);
 router.post('/add-doctor', itManagerController.addDoctor);
 
 // // GET add nurse form
-// router.get('/add-nurse', itManagerController.renderAddNurseForm);
+router.get('/add-nurse', itManagerController.renderAddNurseForm);
 
 // // POST add nurse
-// router.post('/add-nurse', itManagerController.addNurse);
+router.post('/add-nurse', itManagerController.addNurse);
 
 // // GET add receptionist form
 // router.get('/add-receptionist', itManagerController.renderAddReceptionistForm);
@@ -46,13 +46,13 @@ router.post('/add-doctor', itManagerController.addDoctor);
 // router.post('/delete-doctor/:id', itManagerController.deleteDoctor);
 
 // // GET edit nurse form
-// router.get('/edit-nurse/:id', itManagerController.renderEditNurseForm);
+router.get('/edit-nurse/:id', itManagerController.renderEditNurseForm);
 
 // // POST update nurse
-// router.post('/update-nurse/:id', itManagerController.updateNurse);
+router.post('/update-nurse/:id', itManagerController.updateNurse);
 
 // // POST delete nurse
-// router.post('/delete-nurse/:id', itManagerController.deleteNurse);
+router.post('/delete-nurse/:id', itManagerController.deleteNurse);
 
 // // GET edit receptionist form
 // router.get('/edit-receptionist/:id', itManagerController.renderEditReceptionistForm);
