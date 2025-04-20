@@ -73,6 +73,6 @@ router.post('/add-doctor', itManagerController.addDoctor);
 // router.post('/delete-it-manager/:id', itManagerController.deleteITManager);
 
 // // GET patient profile
-// router.get('/patient/:id', itManagerController.renderPatientProfile);
+router.get('/patient/:id', itManagerController.renderPatientProfile);
 
 module.exports = router;

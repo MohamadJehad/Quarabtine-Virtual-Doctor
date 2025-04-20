@@ -10,7 +10,7 @@ router.use(isAuthenticated, isNurse);
 router.get('/home', nurseController.renderHomePage);
 
 // // GET patient profile
-// router.get('/patient/:id', nurseController.renderPatientProfile);
+router.get('/patient', nurseController.renderPatientProfile);
 
 // // POST start new measurement
 // router.post('/new-measure', nurseController.startNewMeasurement);
