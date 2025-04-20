@@ -3,6 +3,7 @@ const Doctor = require('../models/doctorModel');
 const Nurse = require('../models/nurseModel');
 const Patient = require('../models/patientModel');
 const Receptionist = require('../models/receptionistModel');
+const req = require('express/lib/request');
 
 exports.testRoute = (_, res) => {
   res.send('IT Manager test route works!');
@@ -116,10 +117,10 @@ exports.addNurse = async (req, res) => {
   }
 };
 
-exports.renderAddNurseForm = async (_, res) => {
+exports.renderAddNurseForm = async (req, res) => {
   try {
     // Render the add nurse form view
-    res.render('nurse/add');
+    res.render('nurse/add', { role: req.session.role });
   } catch (error) {
     console.error('Error rendering add nurse form:', error);
     res.status(500).render('errors/500', { error: 'Failed to load add nurse form' });
@@ -198,7 +199,7 @@ exports.deleteITManager = async (req, res) => {
   }
 };
 exports.isITManager = (req, res, next) => {
-  if (req.session.role === 'IT_Manager') {
+  if (req.session.role === 'it-manager') {
     return next();
   }
   res.status(403).render('errors/403', { message: 'Access denied. IT Managers only.' });
@@ -216,7 +217,7 @@ exports.renderPatientProfile = async (req, res) => {
     res.render('patient/profile-base', {
       patients: [patient],
       nurses,
-      role: 'IT_Manager',
+      role: 'it-manager',
     });
   } catch (error) {
     console.error('Error rendering patient profile:', error);

@@ -103,7 +103,7 @@ exports.assignRoom = async (req, res) => {
     await Patient.updateRoom(patientId, roomId);
 
     // Redirect based on user role
-    if (req.session.role === 'IT_Manager') {
+    if (req.session.role === 'it-manager') {
       res.redirect('/it-manager/home');
     } else if (req.session.role === 'receptionist') {
       res.redirect('/receptionist/home');
