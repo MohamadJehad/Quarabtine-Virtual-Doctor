@@ -446,3 +446,32 @@ exports.deletePatient = async (req, res) => {
     res.status(500).render('errors/500', { error: 'Failed to delete patient' });
   }
 };
+
+exports.updatePatient = async (req, res) => {
+  try {
+    const patientId = req.params.id;
+    const { FName, weight, birthDate, mobile, city, street, buildingNo, roomId } = req.body;
+
+    // Update patient
+    const success = await Patient.update(patientId, {
+      FName,
+      gender: req.body.Male ? 'Male' : 'Female',
+      weight,
+      birthDate,
+      mobile,
+      city,
+      street,
+      buildingNo,
+      roomId,
+    });
+
+    if (!success) {
+      return res.status(404).render('errors/404', { error: 'Patient not found' });
+    }
+
+    res.redirect(`/it-manager/patient/${patientId}`);
+  } catch (error) {
+    console.error('Error updating patient:', error);
+    res.status(500).render('errors/500', { error: 'Failed to update patient' });
+  }
+};

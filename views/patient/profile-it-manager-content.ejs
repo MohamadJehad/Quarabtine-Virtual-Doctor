@@ -11,7 +11,7 @@
           <h5 class="mb-0">Edit Patient Information</h5>
         </div>
         <div class="card-body">
-          <form action="/it-manager/update-patient" method="post">
+          <form action="/it-manager/update-patient/<%= patients[0].ID %>" method="post">
             <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
             
             <div class="mb-3">
