@@ -31,10 +31,10 @@ router.get('/add-receptionist', itManagerController.renderAddReceptionistForm);
 router.post('/add-receptionist', itManagerController.addReceptionist);
 
 // // GET add IT manager form
-// router.get('/add-it-manager', itManagerController.renderAddITManagerForm);
+router.get('/add-it-manager', itManagerController.renderAddITManagerForm);
 
 // // POST add IT manager
-// router.post('/add-it-manager', itManagerController.addITManager);
+router.post('/add-it-manager', itManagerController.addITManager);
 
 // // GET edit doctor form
 // router.get('/edit-doctor/:id', itManagerController.renderEditDoctorForm);
@@ -64,13 +64,13 @@ router.post('/update-receptionist/:id', itManagerController.updateReceptionist);
 router.post('/delete-receptionist/:id', itManagerController.deleteReceptionist);
 
 // // GET edit IT manager form
-// router.get('/edit-it-manager/:id', itManagerController.renderEditITManagerForm);
+router.get('/edit-it-manager/:id', itManagerController.renderEditITManagerForm);
 
 // // POST update IT manager
-// router.post('/update-it-manager/:id', itManagerController.updateITManager);
+router.post('/update-it-manager/:id', itManagerController.updateITManager);
 
 // // POST delete IT manager
-// router.post('/delete-it-manager/:id', itManagerController.deleteITManager);
+router.post('/delete-it-manager/:id', itManagerController.deleteITManager);
 
 // // GET patient profile
 router.get('/patient/:id', itManagerController.renderPatientProfile);

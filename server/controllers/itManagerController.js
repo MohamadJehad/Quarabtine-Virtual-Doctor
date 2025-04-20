@@ -8,7 +8,7 @@ exports.testRoute = (_, res) => {
   res.send('IT Manager test route works!');
 };
 
-exports.renderAddITManagerForm = async (res) => {
+exports.renderAddITManagerForm = async (_, res) => {
   try {
     res.render('it-manager/add');
   } catch (error) {
