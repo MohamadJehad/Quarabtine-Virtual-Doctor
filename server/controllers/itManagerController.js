@@ -297,3 +297,105 @@ exports.updateNurse = async (req, res) => {
     res.status(500).render('errors/500', { error: 'Failed to update nurse' });
   }
 };
+
+exports.renderAddReceptionistForm = async (_, res) => {
+  try {
+    res.render('receptionist/add');
+  } catch (error) {
+    console.error('Error rendering add receptionist form:', error);
+    res.status(500).render('errors/500', { error: 'Failed to load add receptionist form' });
+  }
+};
+
+exports.addReceptionist = async (req, res) => {
+  try {
+    const { FName, username, password, mobile } = req.body;
+
+    // Create receptionist
+    await Receptionist.create({
+      FName,
+      gender: req.body.Male ? 'Male' : 'Female',
+      username,
+      password,
+      mobile,
+    });
+
+    // Redirect to IT manager home page
+    res.redirect('/it-manager/home');
+  } catch (error) {
+    console.error('Error adding receptionist:', error);
+    res.status(500).render('errors/500', { error: 'Failed to add receptionist' });
+  }
+};
+
+exports.renderEditReceptionistForm = async (req, res) => {
+  try {
+    const receptionistId = req.params.id;
+    const receptionist = await Receptionist.getById(receptionistId);
+
+    if (!receptionist) {
+      return res.status(404).render('errors/404', { error: 'Receptionist not found' });
+    }
+
+    res.render('receptionist/edit', { receptionist });
+  } catch (error) {
+    console.error('Error rendering edit receptionist form:', error);
+    res.status(500).render('errors/500', { error: 'Failed to load edit receptionist form' });
+  }
+};
+
+exports.updateReceptionist = async (req, res) => {
+  try {
+    const receptionistId = req.params.id;
+    const { FName, username, password, mobile } = req.body;
+
+    // Get existing receptionist data
+    const existingReceptionist = await Receptionist.getById(receptionistId);
+
+    if (!existingReceptionist) {
+      return res.status(404).render('errors/404', { error: 'Receptionist not found' });
+    }
+
+    // Prepare update data
+    const updateData = {
+      FName,
+      gender: req.body.Male ? 'Male' : 'Female',
+      username,
+      mobile,
+    };
+
+    // Only update password if provided
+    if (password && password.trim() !== '') {
+      updateData.password = password;
+    } else {
+      updateData.password = existingReceptionist.password; // Keep existing password
+    }
+
+    // Update receptionist
+    const success = await Receptionist.update(receptionistId, updateData);
+
+    if (!success) {
+      return res.status(500).render('errors/500', { error: 'Failed to update receptionist' });
+    }
+
+    res.redirect('/it-manager/home');
+  } catch (error) {
+    console.error('Error updating receptionist:', error);
+    res.status(500).render('errors/500', { error: 'Failed to update receptionist' });
+  }
+};
+exports.deleteReceptionist = async (req, res) => {
+  try {
+    const receptionistId = req.params.id;
+    const success = await Receptionist.delete(receptionistId);
+
+    if (!success) {
+      return res.status(404).render('errors/404', { error: 'Receptionist not found' });
+    }
+
+    res.redirect('/it-manager/home');
+  } catch (error) {
+    console.error('Error deleting receptionist:', error);
+    res.status(500).render('errors/500', { error: 'Failed to delete receptionist' });
+  }
+};
