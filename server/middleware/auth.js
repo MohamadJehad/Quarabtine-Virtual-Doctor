@@ -13,7 +13,7 @@ exports.isDoctor = (req, res, next) => {
 };
 
 exports.isNurse = (req, res, next) => {
-  if (req.session.role === 'nurse123') {
+  if (req.session.role === 'nurse') {
     return next();
   }
   res.status(403).render('errors/403', { message: 'Access denied. Nurses only.' });

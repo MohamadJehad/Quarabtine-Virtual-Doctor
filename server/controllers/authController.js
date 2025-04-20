@@ -21,7 +21,7 @@ exports.login = async (req, res) => {
     if (nurse) {
       req.session.authenticated = true;
       req.session.nurseID = nurse.id;
-      req.session.role = 'nurse123';
+      req.session.role = 'nurse';
       return res.redirect('/nurse/home');
     }
 
