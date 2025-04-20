@@ -94,6 +94,54 @@ exports.addDoctor = async (req, res) => {
   }
 };
 
+exports.addNurse = async (req, res) => {
+  try {
+    const { Name, phone, username, password, floor } = req.body;
+    
+    // Create nurse
+    await Nurse.create({
+      Name,
+      gender: req.body.Male ? 'Male' : 'Female',
+      username,
+      password,
+      phone,
+      floor
+    });
+
+    // Redirect to IT manager home page after successful creation
+    res.redirect('/it-manager/home');
+  } catch (error) {
+    console.error('Error adding nurse:', error);
+    res.status(500).render('errors/500', { error: 'Failed to add nurse' });
+  }
+};
+
+exports.renderAddNurseForm = async (_, res) => {
+  try {
+    // Render the add nurse form view
+    res.render('nurse/add');
+  } catch (error) {
+    console.error('Error rendering add nurse form:', error);
+    res.status(500).render('errors/500', { error: 'Failed to load add nurse form' });
+  }
+};
+
+exports.deleteNurse = async (req, res) => {
+  try {
+    const nurseId = req.params.id;
+    const success = await Nurse.delete(nurseId);
+
+    if (!success) {
+      return res.status(404).render('errors/404', { error: 'Nurse not found' });
+    }
+
+    res.redirect('/it-manager/home');
+  } catch (error) {
+    console.error('Error deleting nurse:', error);
+    res.status(500).render('errors/500', { error: 'Failed to delete nurse' });
+  }
+};
+
 exports.renderEditITManagerForm = async (req, res) => {
   try {
     const managerId = req.params.id;
@@ -191,3 +239,62 @@ exports.renderDoctorProfile = async (req, res) => {
     res.status(500).render('errors/500', { error: 'Failed to load doctor profile' });
   }
 };
+
+exports.renderEditNurseForm = async (req, res) => {
+  try {
+    const nurseId = req.params.id;
+    const nurse = await Nurse.getById(nurseId);
+
+    if (!nurse) {
+      return res.status(404).render('errors/404', { error: 'Nurse not found' });
+    }
+
+    res.render('nurse/edit', { nurse });
+  } catch (error) {
+    console.error('Error rendering edit nurse form:', error);
+    res.status(500).render('errors/500', { error: 'Failed to load edit nurse form' });
+  }
+};
+
+exports.updateNurse = async (req, res) => {
+  try {
+    const nurseId = req.params.id;
+    const { Name, phone, username, password, floor } = req.body;
+    
+    // Get existing nurse data
+    const existingNurse = await Nurse.getById(nurseId);
+    
+    if (!existingNurse) {
+      return res.status(404).render('errors/404', { error: 'Nurse not found' });
+    }
+    
+    // Prepare update data
+    const updateData = {
+      Name,
+      gender: req.body.Male ? 'Male' : 'Female',
+      username,
+      phone,
+      floor
+    };
+    
+    // Only update password if provided
+    if (password && password.trim() !== '') {
+      updateData.password = password;
+    } else {
+      updateData.password = existingNurse.password; // Keep existing password
+    }
+    
+    // Update nurse
+    const success = await Nurse.update(nurseId, updateData);
+    
+    if (!success) {
+      return res.status(500).render('errors/500', { error: 'Failed to update nurse' });
+    }
+    
+    res.redirect('/it-manager/home');
+  } catch (error) {
+    console.error('Error updating nurse:', error);
+    res.status(500).render('errors/500', { error: 'Failed to update nurse' });
+  }
+};
+
