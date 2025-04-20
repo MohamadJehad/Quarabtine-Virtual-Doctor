@@ -1,0 +1,294 @@
+<!-- Health Monitoring Section -->
+<section id="health-monitoring" class="mt-5">
+    <div class="section-title">
+      <h2>Health Monitoring</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Latest Health Indicators</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Temperature</th>
+                    <th>Heart Rate</th>
+                    <th>Oxygen Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (health && health.length > 0) { %>
+                    <% var start = health.length - 4; %>
+                    <% if (start < 0) { start = 0; } %>
+                    <% for (var i = start; i < health.length; i++) { %>
+                      <tr>
+                        <td><%= health[i].date.slice(0, 10) %></td>
+                        <td><%= health[i].time %></td>
+                        <td><%= health[i].temp %> °C</td>
+                        <td><%= health[i].heartRate %> BPM</td>
+                        <td><%= health[i].oxygenRate %> %</td>
+                      </tr>
+                    <% } %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="5" class="text-center">No health data available</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Add New Measurement</h5>
+          </div>
+          <div class="card-body">
+            <form action="/nurse/add-measurement" method="post">
+              <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="temp" class="form-label">Temperature (°C)</label>
+                    <input type="number" step="0.1" class="form-control" id="temp" name="temp" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="heartRate" class="form-label">Heart Rate (BPM)</label>
+                    <input type="number" class="form-control" id="heartRate" name="heartRate" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="oxygenRate" class="form-label">Oxygen Rate (%)</label>
+                    <input type="number" class="form-control" id="oxygenRate" name="oxygenRate" required>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="notes" class="form-label">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="2" placeholder="Any observations or notes..."></textarea>
+              </div>
+              
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-plus-circle me-2"></i>Add Measurement
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Alert Settings Section -->
+  <section id="alert-settings" class="mt-5">
+    <div class="section-title">
+      <h2>Alert Settings</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow">
+          <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Configure Alert Thresholds</h5>
+          </div>
+          <div class="card-body">
+            <form action="/nurse/set-alerts" method="post">
+              <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="tempMin" class="form-label">Temperature Min (°C)</label>
+                    <input type="number" step="0.1" class="form-control" id="tempMin" name="tempMin" value="36.0">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="tempMax" class="form-label">Temperature Max (°C)</label>
+                    <input type="number" step="0.1" class="form-control" id="tempMax" name="tempMax" value="38.0">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="heartRateMin" class="form-label">Heart Rate Min (BPM)</label>
+                    <input type="number" class="form-control" id="heartRateMin" name="heartRateMin" value="60">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="heartRateMax" class="form-label">Heart Rate Max (BPM)</label>
+                    <input type="number" class="form-control" id="heartRateMax" name="heartRateMax" value="100">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="oxygenRateMin" class="form-label">Oxygen Rate Min (%)</label>
+                    <input type="number" class="form-control" id="oxygenRateMin" name="oxygenRateMin" value="90">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="oxygenRateMax" class="form-label">Oxygen Rate Max (%)</label>
+                    <input type="number" class="form-control" id="oxygenRateMax" name="oxygenRateMax" value="100">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="alertDoctor" name="alertDoctor" checked>
+                  <label class="form-check-label" for="alertDoctor">
+                    Alert doctor when values are outside thresholds
+                  </label>
+                </div>
+              </div>
+              
+              <div class="d-grid">
+                <button type="submit" class="btn btn-warning">
+                  <i class="fas fa-bell me-2"></i>Set Alert Thresholds
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Medication Schedule Section -->
+  <section id="medication-schedule" class="mt-5">
+    <div class="section-title">
+      <h2>Medication Schedule</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Current Medications</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Medication</th>
+                    <th>Dosage</th>
+                    <th>Schedule</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (history && history.length > 0) { %>
+                    <% history.forEach(function(item) { %>
+                      <tr>
+                        <td><%= item.medicine %></td>
+                        <td>As prescribed</td>
+                        <td>3 times daily</td>
+                        <td><%= item.date %></td>
+                        <td>Ongoing</td>
+                        <td><span class="badge bg-success">Active</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#medicationModal<%= item.id %>">
+                            <i class="fas fa-eye"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      
+                      <!-- Medication Details Modal -->
+                      <div class="modal fade" id="medicationModal<%= item.id %>" tabindex="-1" aria-labelledby="medicationModalLabel<%= item.id %>" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="medicationModalLabel<%= item.id %>">Medication Details</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <p><strong>Medication:</strong> <%= item.medicine %></p>
+                              <p><strong>Situation:</strong> <%= item.Situation %></p>
+                              <p><strong>Prescribed on:</strong> <%= item.date %> at <%= item.time %></p>
+                              <p><strong>Instructions:</strong> Take as prescribed by the doctor.</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% }); %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="7" class="text-center">No medications prescribed</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    // Any Nurse specific JavaScript can go here
+    document.addEventListener('DOMContentLoaded', function() {
+      // Example: Form validation for measurements
+      const measurementForm = document.querySelector('form[action="/nurse/add-measurement"]');
+      if (measurementForm) {
+        measurementForm.addEventListener('submit', function(event) {
+          const temp = parseFloat(document.getElementById('temp').value);
+          const heartRate = parseInt(document.getElementById('heartRate').value);
+          const oxygenRate = parseInt(document.getElementById('oxygenRate').value);
+          
+          let isValid = true;
+          let errorMessage = '';
+          
+          if (temp < 35 || temp > 42) {
+            isValid = false;
+            errorMessage += 'Temperature should be between 35°C and 42°C\n';
+          }
+          
+          if (heartRate < 40 || heartRate > 200) {
+            isValid = false;
+            errorMessage += 'Heart rate should be between 40 and 200 BPM\n';
+          }
+          
+          if (oxygenRate < 70 || oxygenRate > 100) {
+            isValid = false;
+            errorMessage += 'Oxygen rate should be between 70% and 100%\n';
+          }
+          
+          if (!isValid) {
+            event.preventDefault();
+            alert('Invalid measurements:\n' + errorMessage);
+          }
+        });
+      }
+    });
+  </script>
+  
