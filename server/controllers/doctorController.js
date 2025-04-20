@@ -29,13 +29,14 @@ exports.renderPatientProfile = async (req, res) => {
     const situations = await Patient.getSituations(patientId);
     const status = await Patient.getStatus(patientId);
 
-    res.render('doctor/patientProfile', {
+    res.render('patient/profile-base', {
       patients: [patient],
       health: healthData,
       history: situations,
       status: [status],
       showMeassure: false,
       roomId: 25, // Consider generating a unique room ID for video calls
+      role:"doctor",
     });
   } catch (error) {
     console.error('Error rendering patient profile:', error);
