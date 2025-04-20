@@ -64,7 +64,7 @@ exports.renderPatientProfile = async (req, res) => {
       status: [status],
       showMeassure: false,
       roomId: 25, // Consider generating a unique room ID for video calls
-      role:"nurse",
+      role: 'nurse',
     });
   } catch (error) {
     console.error('Error rendering patient profile:', error);

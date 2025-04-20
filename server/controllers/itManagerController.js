@@ -168,14 +168,13 @@ exports.renderPatientProfile = async (req, res) => {
     res.render('patient/profile-base', {
       patients: [patient],
       nurses,
-      role:"IT_Manager",
+      role: 'IT_Manager',
     });
   } catch (error) {
     console.error('Error rendering patient profile:', error);
     res.status(500).render('errors/500', { error: 'Failed to load patient profile' });
   }
 };
-
 
 exports.renderDoctorProfile = async (req, res) => {
   try {
