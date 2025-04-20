@@ -138,6 +138,37 @@ class Nurse {
       );
     });
   }
+  static assignToPatient(nurseId, patientId) {
+    return new Promise((resolve, reject) => {
+      // First check if this assignment already exists
+      db.query(
+        'SELECT * FROM n_monitor_p WHERE nurse_id = ? AND patient_id = ?',
+        [nurseId, patientId],
+        (err, results) => {
+          if (err) return reject(err);
+
+          // If assignment already exists, consider it a success
+          if (results.length > 0) {
+            return resolve(true);
+          }
+
+          // Otherwise create a new assignment
+          const currentDate = new Date().toISOString().slice(0, 10);
+          const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
+
+          db.query(
+            `INSERT INTO n_monitor_p (date, time, nurse_id, patient_id)
+             VALUES (?, ?, ?, ?)`,
+            [currentDate, currentTime, nurseId, patientId],
+            (err, result) => {
+              if (err) return reject(err);
+              resolve(result.insertId > 0);
+            }
+          );
+        }
+      );
+    });
+  }
 }
 
 module.exports = Nurse;
