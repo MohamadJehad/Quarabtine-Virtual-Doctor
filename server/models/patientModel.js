@@ -144,19 +144,22 @@ class Patient {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      try {
-        // Delete related records first
-        db.promise().query('DELETE FROM n_monitor_p WHERE patient_id = ?', [id]);
-        db.promise().query('DELETE FROM healthindicator WHERE patient_id = ?', [id]);
-        db.promise().query('DELETE FROM patient_status WHERE patient_id = ?', [id]);
-        db.promise().query('DELETE FROM patient_situation WHERE patient_id = ?', [id]);
+      (async () => {
+        try {
+          // Delete related records first
+          await db.promise().query('DELETE FROM caregiver WHERE patient_id = ?', [id]);
+          await db.promise().query('DELETE FROM n_monitor_p WHERE patient_id = ?', [id]);
+          await db.promise().query('DELETE FROM healthindicator WHERE patient_id = ?', [id]);
+          await db.promise().query('DELETE FROM patient_status WHERE patient_id = ?', [id]);
+          await db.promise().query('DELETE FROM patient_situation WHERE patient_id = ?', [id]);
 
-        // Delete the patient
-        const [result] = db.promise().query('DELETE FROM patient WHERE ID = ?', [id]);
-        resolve(result.affectedRows > 0);
-      } catch (err) {
-        reject(err);
-      }
+          // Delete the patient
+          const [result] = await db.promise().query('DELETE FROM patient WHERE ID = ?', [id]);
+          resolve(result.affectedRows > 0);
+        } catch (err) {
+          reject(err);
+        }
+      })();
     });
   }
 
