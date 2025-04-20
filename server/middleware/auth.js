@@ -20,7 +20,7 @@ exports.isNurse = (req, res, next) => {
 };
 
 exports.isITManager = (req, res, next) => {
-  if (req.session.role === 'IT_Manager') {
+  if (req.session.role === 'it-manager') {
     return next();
   }
   res.status(403).render('errors/403', { message: 'Access denied. IT Managers only.' });
