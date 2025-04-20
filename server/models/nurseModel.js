@@ -62,14 +62,14 @@ class Nurse {
   }
 
   static delete(id) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         // Delete related records first
-        db.promise().query('DELETE FROM n_monitor_p WHERE nurse_id = ?', [id]);
+        await db.promise().query('DELETE FROM n_monitor_p WHERE nurse_id = ?', [id]);
 
         // Delete the nurse
-        const [result] = db.promise().query('DELETE FROM nurse WHERE id = ?', [id]);
-        resolve(result.affectedRows > 0);
+        const result = await db.promise().query('DELETE FROM nurse WHERE id = ?', [id]);
+        resolve(result[0].affectedRows > 0);
       } catch (err) {
         reject(err);
       }
