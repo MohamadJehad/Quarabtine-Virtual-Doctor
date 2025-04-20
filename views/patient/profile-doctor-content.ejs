@@ -1,0 +1,297 @@
+<!-- Health Indicators Section -->
+<section id="health-indicators" class="mt-5">
+    <div class="section-title">
+      <h2>Health Indicators</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Measurement History</h5>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Temperature</th>
+                    <th>Heartbeat Rate</th>
+                    <th>Oxygen Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% var start = health.length - 4; %>
+                  <% if (start < 0) { start = 0; } %>
+                  <% for (var i = start; i < health.length; i++) { %>
+                    <tr>
+                      <td><%= health[i].date.slice(0, 10) %></td>
+                      <td><%= health[i].time %></td>
+                      <td><%= health[i].temp %></td>
+                      <td><%= health[i].heartRate %></td>
+                      <td><%= health[i].oxygenRate %></td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">New Reading</h5>
+          </div>
+          <div class="card-body">
+            <form action="/doctor/new-measure" method="post">
+              <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+              
+              <div class="mb-3">
+                <label for="heartRate" class="form-label">Heartbeat Reading</label>
+                <input type="text" class="form-control" id="heartRate" name="heartRate" 
+                       value="<%= showMeassure && health.length >= 1 ? health[health.length-1].heartRate : '' %>" 
+                       <%= showMeassure ? 'readonly' : '' %>>
+              </div>
+              
+              <div class="mb-3">
+                <label for="temp" class="form-label">Temperature Reading</label>
+                <input type="text" class="form-control" id="temp" name="temp" 
+                       value="<%= showMeassure && health.length >= 1 ? health[health.length-1].temp : '' %>" 
+                       <%= showMeassure ? 'readonly' : '' %>>
+              </div>
+              
+              <div class="mb-3">
+                <label for="oxygenRate" class="form-label">Oxygen Rate Reading</label>
+                <input type="text" class="form-control" id="oxygenRate" name="oxygenRate" 
+                       value="<%= showMeassure && health.length >= 1 ? health[health.length-1].oxygenRate : '' %>" 
+                       <%= showMeassure ? 'readonly' : '' %>>
+              </div>
+              
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-stethoscope me-2"></i>Measure
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Patient Treatment Plan Section -->
+  <section id="treatment-plan" class="mt-5">
+    <div class="section-title">
+      <h2>Patient Treatment Plan</h2>
+    </div>
+    
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Add New Prescription</h5>
+      </div>
+      <div class="card-body">
+        <form action="/doctor/add-situation" method="post">
+          <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+          
+          <div class="mb-3">
+            <label for="situation" class="form-label">Situation</label>
+            <textarea class="form-control" id="situation" name="situation" rows="3" placeholder="Describe the patient's situation..."></textarea>
+          </div>
+          
+          <div class="mb-3">
+            <label for="medicine" class="form-label">Medicine</label>
+            <input type="text" class="form-control" id="medicine" name="medicine" placeholder="Enter the medicine here...">
+          </div>
+          
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-prescription-bottle-alt me-2"></i>Prescribe
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  
+  <!-- History Section -->
+  <section id="history" class="mt-5">
+    <div class="section-title">
+      <h2>Situations History</h2>
+    </div>
+    
+    <div class="card shadow">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Situation</th>
+                <th>Medicine</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (var i = 0; i < history.length; i++) { %>
+                <tr>
+                  <td><%= history[i].date %></td>
+                  <td><%= history[i].time %></td>
+                  <td><%= history[i].Situation %></td>
+                  <td>
+                    <div id="medicineField<%= i %>">
+                      <%= history[i].medicine %>
+                    </div>
+                    <form id="editForm<%= i %>" style="display: none;" method="post" action="/doctor/update-situation">
+                      <input type="hidden" name="situation_id" value="<%= history[i].id %>">
+                      <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+                      <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" name="medicine" value="<%= history[i].medicine %>">
+                        <button type="submit" class="btn btn-sm btn-success">
+                          <i class="fas fa-save"></i>
+                        </button>
+                      </div>
+                    </form>
+                  </td>
+                  <td>
+                    <button type="button" onclick="toggleEdit('<%= i %>')" class="btn btn-sm btn-outline-primary">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <form method="post" action="/doctor/delete-situation">
+                      <input type="hidden" name="patientID" value="<%= patients[0].ID %>">
+                      <input type="hidden" name="situation_id" value="<%= history[i].id %>">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Robot Control Section -->
+  <section id="robot-control" class="mt-5">
+    <div class="section-title">
+      <h2>Robot Control</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Video Feed</h5>
+          </div>
+          <div class="card-body">
+            <div id="video-grid" class="video-container">
+              <!-- Video feed will be inserted here by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Controls</h5>
+          </div>
+          <div class="card-body">
+            <div class="robot-controls">
+              <div class="d-flex justify-content-center mb-3">
+                <button class="btn btn-lg btn-outline-primary" onclick="sendDirection('up')">
+                  <i class="fas fa-arrow-up"></i>
+                </button>
+              </div>
+              <div class="d-flex justify-content-between mb-3">
+                <button class="btn btn-lg btn-outline-primary" onclick="sendDirection('left')">
+                  <i class="fas fa-arrow-left"></i>
+                </button>
+                <button class="btn btn-lg btn-outline-primary" onclick="sendDirection('right')">
+                  <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button class="btn btn-lg btn-outline-primary" onclick="sendDirection('down')">
+                  <i class="fas fa-arrow-down"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <div class="alert alert-info">
+                <i class="fas fa-keyboard me-2"></i>
+                <small>You can also use keyboard keys: W (up), A (left), S (down), D (right)</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <script>
+    // Toggle edit form for medicine
+    function toggleEdit(index) {
+      const medicineField = document.getElementById(`medicineField${index}`);
+      const editForm = document.getElementById(`editForm${index}`);
+      
+      if (editForm.style.display === 'none') {
+        medicineField.style.display = 'none';
+        editForm.style.display = 'block';
+      } else {
+        medicineField.style.display = 'block';
+        editForm.style.display = 'none';
+      }
+    }
+    
+    // Robot control functions
+    function sendDirection(direction) {
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log("Direction sent: " + direction);
+        }
+      };
+      xhttp.open("POST", "/direction", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send("direction=" + direction);
+    }
+    
+    // Keyboard controls
+    document.addEventListener('keydown', (event) => {
+      const keyName = event.key.toLowerCase();
+      switch (keyName) {
+        case 'w':
+          sendDirection('up');
+          break;
+        case 'a':
+          sendDirection('left');
+          break;
+        case 's':
+          sendDirection('down');
+          break;
+        case 'd':
+          sendDirection('right');
+          break;
+      }
+    });
+    
+    // Video call setup
+    document.addEventListener('DOMContentLoaded', function() {
+      const ROOM_ID = "<%= roomId %>";
+      // Video call initialization code would go here
+      console.log(`Room ID: ${ROOM_ID}`);
+    });
+  </script>
+  
