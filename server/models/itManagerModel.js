@@ -3,7 +3,7 @@ const db = require('../config/database.ts');
 class ITManager {
   static getAll() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM IT_Manager', (err, results) => {
+      db.query('SELECT * FROM IT_manager', (err, results) => {
         if (err) return reject(err);
         resolve(results);
       });
@@ -12,7 +12,7 @@ class ITManager {
 
   static getById(id) {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM IT_Manager WHERE id = ?', [id], (err, results) => {
+      db.query('SELECT * FROM IT_manager WHERE id = ?', [id], (err, results) => {
         if (err) return reject(err);
         resolve(results[0]);
       });
@@ -24,7 +24,7 @@ class ITManager {
       const { FName, username, password, mobile, gender } = managerData;
 
       db.query(
-        `INSERT INTO IT_Manager (FName, username, password, mobile, gender)
+        `INSERT INTO IT_manager (FName, username, password, mobile, gender)
          VALUES (?, ?, ?, ?, ?)`,
         [FName, username, password, mobile, gender],
         (err, result) => {
@@ -40,7 +40,7 @@ class ITManager {
       const { FName, username, password, mobile, gender } = managerData;
 
       db.query(
-        `UPDATE IT_Manager SET 
+        `UPDATE IT_manager SET 
          FName = ?, username = ?, password = ?, mobile = ?, gender = ?
          WHERE id = ?`,
         [FName, username, password, mobile, gender, id],
@@ -54,7 +54,7 @@ class ITManager {
 
   static delete(id) {
     return new Promise((resolve, reject) => {
-      db.query('DELETE FROM IT_Manager WHERE id = ?', [id], (err, result) => {
+      db.query('DELETE FROM IT_manager WHERE id = ?', [id], (err, result) => {
         if (err) return reject(err);
         resolve(result.affectedRows > 0);
       });
@@ -64,7 +64,7 @@ class ITManager {
   static authenticate(username, password) {
     return new Promise((resolve, reject) => {
       db.query(
-        'SELECT * FROM IT_Manager WHERE username = ? AND password = ?',
+        'SELECT * FROM IT_manager WHERE username = ? AND password = ?',
         [username, password],
         (err, results) => {
           if (err) return reject(err);

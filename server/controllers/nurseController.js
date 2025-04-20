@@ -1,9 +1,9 @@
 const Nurse = require('../models/nurseModel');
 const Patient = require('../models/patientModel');
 
-exports.renderAddNurseForm = async (res) => {
+exports.renderAddNurseForm = async (req, res) => {
   try {
-    res.render('nurse/add');
+    res.render('nurse/add', { role: req.session.role });
   } catch (error) {
     console.error('Error rendering add nurse form:', error);
     res.status(500).render('errors/500', { error: 'Failed to load add nurse form' });
@@ -88,7 +88,7 @@ exports.addNurse = async (req, res) => {
     console.log({ nurseId });
 
     // Redirect based on user role
-    if (req.session.role === 'IT_Manager') {
+    if (req.session.role === 'it-manager') {
       res.redirect('/it-manager/home');
     } else {
       res.redirect('/');
@@ -150,7 +150,7 @@ exports.updateNurse = async (req, res) => {
     }
 
     // Redirect based on user role
-    if (req.session.role === 'IT_Manager') {
+    if (req.session.role === 'it-manager') {
       res.redirect('/it-manager/home');
     } else {
       res.redirect('/nurse/profile/' + nurseId);
@@ -171,7 +171,7 @@ exports.deleteNurse = async (req, res) => {
     }
 
     // Redirect based on user role
-    if (req.session.role === 'IT_Manager') {
+    if (req.session.role === 'it-manager') {
       res.redirect('/it-manager/home');
     } else {
       res.redirect('/');

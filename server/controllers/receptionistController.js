@@ -26,7 +26,7 @@ exports.addReceptionist = async (req, res) => {
     });
 
     // Redirect based on user role
-    if (req.session.role === 'IT_Manager') {
+    if (req.session.role === 'it-manager') {
       res.redirect('/it-manager/home');
     } else {
       res.redirect('/');
@@ -88,7 +88,7 @@ exports.updateReceptionist = async (req, res) => {
     }
 
     // Redirect based on user role
-    if (req.session.role === 'IT_Manager') {
+    if (req.session.role === 'it-manager') {
       res.redirect('/it-manager/home');
     } else {
       res.redirect('/receptionist/profile/' + receptionistId);
@@ -140,7 +140,7 @@ exports.updateNurseFloor = async (req, res) => {
     const nurseId = req.body.nurse_id;
     const floor = req.body.floor;
 
-    await Nurse.update(nurseId, { floor });
+    await Nurse.updateFloor(nurseId, { floor });
 
     res.redirect('/receptionist/home');
   } catch (error) {
@@ -254,5 +254,37 @@ exports.submitHealthQuestionnaire = async (req, res) => {
   } catch (error) {
     console.error('Error submitting health questionnaire:', error);
     res.status(500).render('errors/500', { error: 'Failed to submit health questionnaire' });
+  }
+};
+
+exports.renderAddNurseForm = async (req, res) => {
+  try {
+    // Render the add nurse form view
+    res.render('nurse/add', { role: req.session.role });
+  } catch (error) {
+    console.error('Error rendering add nurse form:', error);
+    res.status(500).render('errors/500', { error: 'Failed to load add nurse form' });
+  }
+};
+
+exports.addNurse = async (req, res) => {
+  try {
+    const { Name, phone, username, password, floor } = req.body;
+
+    // Create nurse
+    await Nurse.create({
+      Name,
+      gender: req.body.Male ? 'Male' : 'Female',
+      username,
+      password,
+      phone,
+      floor,
+    });
+
+    // Redirect to IT manager home page after successful creation
+    res.redirect('/receptionist/home');
+  } catch (error) {
+    console.error('Error adding nurse:', error);
+    res.status(500).render('errors/500', { error: 'Failed to add nurse' });
   }
 };

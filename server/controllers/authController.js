@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
     const itManager = await ITManager.authenticate(username, password);
     if (itManager) {
       req.session.authenticated = true;
-      req.session.role = 'IT_Manager';
+      req.session.role = 'it-manager';
       return res.redirect('/it-manager/home');
     }
 
