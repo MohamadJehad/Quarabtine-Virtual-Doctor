@@ -325,16 +325,16 @@
                   <% if(Receptionist && Receptionist.length > 0) { %>
                     <% Receptionist.forEach(function(receptionist) { %>
                       <tr>
-                        <td><%= receptionist.id %></td>
+                        <td><%= receptionist.ID %></td>
                         <td><%= receptionist.FName %></td>
                         <td><%= receptionist.mobile %></td>
                         <td><%= receptionist.username %></td>
                         <td><%= receptionist.Gender %></td>
                         <td>
-                          <a href="/it-manager/edit-receptionist/<%= receptionist.id %>" class="btn btn-sm btn-warning">
+                          <a href="/it-manager/edit-receptionist/<%= receptionist.ID %>" class="btn btn-sm btn-warning">
                             <i class="fas fa-edit"></i>
                           </a>
-                          <form action="/it-manager/delete-receptionist/<%= receptionist.id %>" method="POST" class="d-inline">
+                          <form action="/it-manager/delete-receptionist/<%= receptionist.ID %>" method="POST" class="d-inline">
                             <button type="submit" class="btn btn-sm btn-danger">
                               <i class="fas fa-trash"></i>
                             </button>
