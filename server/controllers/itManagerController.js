@@ -97,7 +97,7 @@ exports.addDoctor = async (req, res) => {
 exports.addNurse = async (req, res) => {
   try {
     const { Name, phone, username, password, floor } = req.body;
-    
+
     // Create nurse
     await Nurse.create({
       Name,
@@ -105,7 +105,7 @@ exports.addNurse = async (req, res) => {
       username,
       password,
       phone,
-      floor
+      floor,
     });
 
     // Redirect to IT manager home page after successful creation
@@ -260,41 +260,40 @@ exports.updateNurse = async (req, res) => {
   try {
     const nurseId = req.params.id;
     const { Name, phone, username, password, floor } = req.body;
-    
+
     // Get existing nurse data
     const existingNurse = await Nurse.getById(nurseId);
-    
+
     if (!existingNurse) {
       return res.status(404).render('errors/404', { error: 'Nurse not found' });
     }
-    
+
     // Prepare update data
     const updateData = {
       Name,
       gender: req.body.Male ? 'Male' : 'Female',
       username,
       phone,
-      floor
+      floor,
     };
-    
+
     // Only update password if provided
     if (password && password.trim() !== '') {
       updateData.password = password;
     } else {
       updateData.password = existingNurse.password; // Keep existing password
     }
-    
+
     // Update nurse
     const success = await Nurse.update(nurseId, updateData);
-    
+
     if (!success) {
       return res.status(500).render('errors/500', { error: 'Failed to update nurse' });
     }
-    
+
     res.redirect('/it-manager/home');
   } catch (error) {
     console.error('Error updating nurse:', error);
     res.status(500).render('errors/500', { error: 'Failed to update nurse' });
   }
 };
-
