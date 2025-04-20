@@ -194,7 +194,7 @@
                       <div id="floorField<%= index %>" class="d-flex align-items-center">
                         <span class="badge bg-info me-2">Floor <%= nurse.floor %></span>
                       </div>
-                      <form id="editForm<%= index %>" style="display: none;" method="post" action="/edit-floor" class="mt-2">
+                      <form id="editForm<%= index %>" style="display: none;" method="post" action="/receptionist/update-nurse-floor" class="mt-2">
                         <input type="hidden" name="nurse_id" value="<%= nurse.id %>">
                         <div class="input-group input-group-sm">
                           <input type="text" name="floor" value="<%= nurse.floor %>" class="form-control">

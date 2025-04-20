@@ -140,7 +140,7 @@ exports.updateNurseFloor = async (req, res) => {
     const nurseId = req.body.nurse_id;
     const floor = req.body.floor;
 
-    await Nurse.update(nurseId, { floor });
+    await Nurse.updateFloor(nurseId, { floor });
 
     res.redirect('/receptionist/home');
   } catch (error) {

@@ -44,6 +44,22 @@ class Nurse {
     });
   }
 
+  static updateFloor(id, floorData) {
+    const floorValue = floorData?.floor;
+
+    return new Promise((resolve, reject) => {
+      db.query(
+        `UPDATE nurse SET 
+         floor = ?
+         WHERE id = ?`,
+        [Number(floorValue), id],
+        (err, result) => {
+          if (err) return reject(err);
+          resolve(result.affectedRows > 0);
+        }
+      );
+    });
+  }
   static update(id, nurseData) {
     return new Promise((resolve, reject) => {
       const { Name, username, password, phone, gender, floor } = nurseData;

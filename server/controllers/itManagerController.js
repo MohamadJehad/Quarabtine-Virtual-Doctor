@@ -3,7 +3,6 @@ const Doctor = require('../models/doctorModel');
 const Nurse = require('../models/nurseModel');
 const Patient = require('../models/patientModel');
 const Receptionist = require('../models/receptionistModel');
-const req = require('express/lib/request');
 
 exports.testRoute = (_, res) => {
   res.send('IT Manager test route works!');
