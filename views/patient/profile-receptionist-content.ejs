@@ -1,0 +1,358 @@
+<!-- Receptionist specific content -->
+<section id="patient-management" class="mt-5">
+    <div class="section-title">
+      <h2>Patient Management</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Room Assignment</h5>
+          </div>
+          <div class="card-body">
+            <% if (patients[0].room_id) { %>
+              <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                This patient is currently assigned to Room <strong><%= patients[0].room_id %></strong>.
+              </div>
+              
+              <form action="/receptionist/update-room" method="post">
+                <input type="hidden" name="patientId" value="<%= patients[0].ID %>">
+                
+                <div class="mb-3">
+                  <label for="roomId" class="form-label">Change Room</label>
+                  <select class="form-select" id="roomId" name="roomId" required>
+                    <option value="" selected disabled>Select a new room...</option>
+                    <% for (let i = 1; i <= 50; i++) { %>
+                      <% if (!occupiedRooms.includes(i) || i == patients[0].room_id) { %>
+                        <option value="<%= i %>" <%= i == patients[0].room_id ? 'selected' : '' %>><%= i %></option>
+                      <% } %>
+                    <% } %>
+                  </select>
+                </div>
+                
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-exchange-alt me-2"></i>Change Room
+                  </button>
+                </div>
+              </form>
+            <% } else { %>
+              <div class="alert alert-warning">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                This patient is not currently assigned to a room.
+              </div>
+              
+              <form action="/receptionist/assign-room" method="post">
+                <input type="hidden" name="patientId" value="<%= patients[0].ID %>">
+                
+                <div class="mb-3">
+                  <label for="roomId" class="form-label">Assign Room</label>
+                  <select class="form-select" id="roomId" name="roomId" required>
+                    <option value="" selected disabled>Select a room...</option>
+                    <% for (let i = 1; i <= 50; i++) { %>
+                      <% if (!occupiedRooms.includes(i)) { %>
+                        <option value="<%= i %>"><%= i %></option>
+                      <% } %>
+                    <% } %>
+                  </select>
+                </div>
+                
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-success">
+                    <i class="fas fa-door-open me-2"></i>Assign Room
+                  </button>
+                </div>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Contact Information</h5>
+          </div>
+          <div class="card-body">
+            <form action="/receptionist/update-contact" method="post">
+              <input type="hidden" name="patientId" value="<%= patients[0].ID %>">
+              
+              <div class="mb-3">
+                <label for="mobile" class="form-label">Mobile Number</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" value="<%= patients[0].mobile %>" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="emergencyContact" class="form-label">Emergency Contact</label>
+                <input type="text" class="form-control" id="emergencyContact" name="emergencyContact" value="<%= patients[0].emergencyContact || '' %>">
+              </div>
+              
+              <div class="mb-3">
+                <label for="emergencyPhone" class="form-label">Emergency Phone</label>
+                <input type="text" class="form-control" id="emergencyPhone" name="emergencyPhone" value="<%= patients[0].emergencyPhone || '' %>">
+              </div>
+              
+              <div class="mb-3">
+                <label for="relationship" class="form-label">Relationship to Patient</label>
+                <input type="text" class="form-control" id="relationship" name="relationship" value="<%= patients[0].relationship || '' %>">
+              </div>
+              
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save me-2"></i>Update Contact Info
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Nurse Assignment Section -->
+  <section id="nurse-assignment" class="mt-5">
+    <div class="section-title">
+      <h2>Nurse Assignment</h2>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Assign Nurse to Patient</h5>
+          </div>
+          <div class="card-body">
+            <form action="/receptionist/assign-nurse" method="post">
+              <input type="hidden" name="patientId" value="<%= patients[0].ID %>">
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="nurseId" class="form-label">Select Nurse</label>
+                    <select class="form-select" id="nurseId" name="nurseId" required>
+                        <option value="" selected disabled>Choose a nurse...</option>
+                        <% nurses.forEach(function(nurse) { %>
+                          <option value="<%= nurse.id %>"><%= nurse.Name %> (Floor: <%= nurse.floor %>)</option>
+                        <% }); %>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="assignmentType" class="form-label">Assignment Type</label>
+                      <select class="form-select" id="assignmentType" name="assignmentType" required>
+                        <option value="primary">Primary Nurse</option>
+                        <option value="secondary">Secondary Nurse</option>
+                        <option value="temporary">Temporary (Shift Coverage)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="notes" class="form-label">Assignment Notes</label>
+                  <textarea class="form-control" id="notes" name="notes" rows="2" placeholder="Any special instructions or notes..."></textarea>
+                </div>
+                
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-nurse me-2"></i>Assign Nurse
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Check-in/Check-out Section -->
+    <section id="check-in-out" class="mt-5">
+      <div class="section-title">
+        <h2>Check-in / Check-out</h2>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Patient Status</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <h5 class="card-title">Current Status</h5>
+                      <p class="card-text">
+                        <% if (patients[0].status === 'checked_in') { %>
+                          <span class="badge bg-success">Checked In</span>
+                          <small class="text-muted d-block mt-2">
+                            Check-in Date: <%= new Date().toLocaleDateString() %>
+                          </small>
+                        <% } else if (patients[0].status === 'checked_out') { %>
+                          <span class="badge bg-danger">Checked Out</span>
+                          <small class="text-muted d-block mt-2">
+                            Check-out Date: <%= new Date().toLocaleDateString() %>
+                          </small>
+                        <% } else { %>
+                          <span class="badge bg-warning">Pending</span>
+                          <small class="text-muted d-block mt-2">
+                            Patient has not been checked in yet.
+                          </small>
+                        <% } %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Update Status</h5>
+                      <div class="d-grid gap-2">
+                        <% if (patients[0].status !== 'checked_in') { %>
+                          <form action="/receptionist/check-in" method="post">
+                            <input type="hidden" name="patientId" value="<%= patients[0].ID %>">
+                            <button type="submit" class="btn btn-success w-100">
+                              <i class="fas fa-sign-in-alt me-2"></i>Check In Patient
+                            </button>
+                          </form>
+                        <% } %>
+                        
+                        <% if (patients[0].status === 'checked_in') { %>
+                          <form action="/receptionist/check-out" method="post">
+                            <input type="hidden" name="patientId" value="<%= patients[0].ID %>">
+                            <button type="submit" class="btn btn-danger w-100">
+                              <i class="fas fa-sign-out-alt me-2"></i>Check Out Patient
+                            </button>
+                          </form>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Visitor Management Section -->
+    <section id="visitor-management" class="mt-5">
+      <div class="section-title">
+        <h2>Visitor Management</h2>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Register Visitor</h5>
+            </div>
+            <div class="card-body">
+              <form action="/receptionist/register-visitor" method="post">
+                <input type="hidden" name="patientId" value="<%= patients[0].ID %>">
+                
+                <div class="mb-3">
+                  <label for="visitorName" class="form-label">Visitor Name</label>
+                  <input type="text" class="form-control" id="visitorName" name="visitorName" required>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="relationship" class="form-label">Relationship to Patient</label>
+                  <input type="text" class="form-control" id="relationship" name="relationship" required>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="contactNumber" class="form-label">Contact Number</label>
+                  <input type="text" class="form-control" id="contactNumber" name="contactNumber" required>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="visitDate" class="form-label">Visit Date</label>
+                  <input type="date" class="form-control" id="visitDate" name="visitDate" value="<%= new Date().toISOString().split('T')[0] %>" required>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="visitTimeStart" class="form-label">Visit Start Time</label>
+                      <input type="time" class="form-control" id="visitTimeStart" name="visitTimeStart" required>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="visitTimeEnd" class="form-label">Visit End Time</label>
+                      <input type="time" class="form-control" id="visitTimeEnd" name="visitTimeEnd" required>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus me-2"></i>Register Visitor
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Recent Visitors</h5>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Relationship</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- This would be populated with actual visitor data from the database -->
+                    <tr>
+                      <td colspan="4" class="text-center">No recent visitors</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      // Any Receptionist specific JavaScript can go here
+      document.addEventListener('DOMContentLoaded', function() {
+        // Set default visit times
+        const now = new Date();
+        const visitTimeStart = document.getElementById('visitTimeStart');
+        const visitTimeEnd = document.getElementById('visitTimeEnd');
+        
+        if (visitTimeStart && visitTimeEnd) {
+          // Set default start time to current hour
+          const currentHour = now.getHours().toString().padStart(2, '0');
+          const currentMinute = now.getMinutes().toString().padStart(2, '0');
+          visitTimeStart.value = `${currentHour}:${currentMinute}`;
+          
+          // Set default end time to one hour later
+          const endHour = (now.getHours() + 1) % 24;
+          visitTimeEnd.value = `${endHour.toString().padStart(2, '0')}:${currentMinute}`;
+        }
+      });
+    </script>
+  
+  

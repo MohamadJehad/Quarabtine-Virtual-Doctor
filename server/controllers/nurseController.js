@@ -50,6 +50,27 @@ exports.renderHomePage = async (req, res) => {
     res.status(500).render('errors/500', { error: 'Failed to load nurse dashboard' });
   }
 };
+exports.renderPatientProfile = async (req, res) => {
+  try {
+    const patientId = req.query.id;
+    const patient = await Patient.getById(patientId);
+    const healthData = await Patient.getHealthIndicators(patientId);
+    const situations = await Patient.getSituations(patientId);
+    const status = await Patient.getStatus(patientId);
+    res.render('patient/profile-base', {
+      patients: [patient],
+      health: healthData,
+      history: situations,
+      status: [status],
+      showMeassure: false,
+      roomId: 25, // Consider generating a unique room ID for video calls
+      role: 'nurse',
+    });
+  } catch (error) {
+    console.error('Error rendering patient profile:', error);
+    res.status(500).render('errors/500', { error: 'Failed to load patient profile' });
+  }
+};
 
 exports.addNurse = async (req, res) => {
   try {

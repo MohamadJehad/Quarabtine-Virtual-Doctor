@@ -149,7 +149,12 @@ exports.deleteITManager = async (req, res) => {
     res.status(500).render('errors/500', { error: 'Failed to delete IT manager' });
   }
 };
-
+exports.isITManager = (req, res, next) => {
+  if (req.session.role === 'IT_Manager') {
+    return next();
+  }
+  res.status(403).render('errors/403', { message: 'Access denied. IT Managers only.' });
+};
 exports.renderPatientProfile = async (req, res) => {
   try {
     const patientId = req.params.id;
@@ -160,9 +165,10 @@ exports.renderPatientProfile = async (req, res) => {
       return res.status(404).render('errors/404', { error: 'Patient not found' });
     }
 
-    res.render('it-manager/patient-profile', {
+    res.render('patient/profile-base', {
       patients: [patient],
       nurses,
+      role: 'IT_Manager',
     });
   } catch (error) {
     console.error('Error rendering patient profile:', error);

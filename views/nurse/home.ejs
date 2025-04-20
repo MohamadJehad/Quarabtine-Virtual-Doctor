@@ -122,8 +122,8 @@
                       <%= Math.random() > 0.7 ? 'Normal' : (Math.random() > 0.5 ? 'Needs Check' : 'Critical') %>
                     </td>
                     <td>
-                      <form action="/nurse/patient-profile" method="post">
-                        <input type="hidden" name="patientID" value="<%= patient.ID %>">
+                      <form action="/nurse/patient" method="get">
+                        <input type="hidden" name="id" value="<%= patient.ID %>">
                         <input type="hidden" name="nurseID" value="<%= nurseID %>">
                         <button type="submit" class="btn btn-sm btn-primary">View Profile</button>
                       </form>
