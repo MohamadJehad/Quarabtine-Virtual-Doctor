@@ -399,3 +399,79 @@ exports.deleteReceptionist = async (req, res) => {
     res.status(500).render('errors/500', { error: 'Failed to delete receptionist' });
   }
 };
+
+exports.assignNurseToPatient = async (req, res) => {
+  try {
+    const { nurse_id, patientID } = req.body;
+
+    // Check if nurse and patient exist
+    const nurse = await Nurse.getById(nurse_id);
+    const patient = await Patient.getById(patientID);
+
+    if (!nurse) {
+      return res.status(404).render('errors/404', { error: 'Nurse not found' });
+    }
+
+    if (!patient) {
+      return res.status(404).render('errors/404', { error: 'Patient not found' });
+    }
+
+    // Assign nurse to patient
+    const success = await Nurse.assignToPatient(nurse_id, patientID);
+
+    if (!success) {
+      return res.status(500).render('errors/500', { error: 'Failed to assign nurse to patient' });
+    }
+
+    // Redirect back to patient profile
+    res.redirect(`/it-manager/patient/${patientID}`);
+  } catch (error) {
+    console.error('Error assigning nurse to patient:', error);
+    res.status(500).render('errors/500', { error: 'Failed to assign nurse to patient' });
+  }
+};
+
+exports.deletePatient = async (req, res) => {
+  try {
+    const patientId = req.params.id;
+    const success = await Patient.delete(patientId);
+
+    if (!success) {
+      return res.status(404).render('errors/404', { error: 'Patient not found' });
+    }
+
+    res.redirect('/it-manager/home');
+  } catch (error) {
+    console.error('Error deleting patient:', error);
+    res.status(500).render('errors/500', { error: 'Failed to delete patient' });
+  }
+};
+
+exports.updatePatient = async (req, res) => {
+  try {
+    const patientId = req.params.id;
+    const { FName, weight, birthDate, mobile, city, street, buildingNo, roomId } = req.body;
+
+    // Update patient
+    const success = await Patient.update(patientId, {
+      FName,
+      gender: req.body.Male ? 'Male' : 'Female',
+      weight,
+      birthDate,
+      mobile,
+      city,
+      street,
+      buildingNo,
+      roomId,
+    });
+
+    if (!success) {
+      return res.status(404).render('errors/404', { error: 'Patient not found' });
+    }
+
+    res.redirect(`/it-manager/patient/${patientId}`);
+  } catch (error) {
+    console.error('Error updating patient:', error);
+    res.status(500).render('errors/500', { error: 'Failed to update patient' });
+  }
+};

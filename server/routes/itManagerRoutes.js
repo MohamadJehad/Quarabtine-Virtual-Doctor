@@ -6,9 +6,6 @@ const { isAuthenticated, isITManager } = require('../middleware/auth');
 // Apply authentication middleware to all IT manager routes
 router.use(isAuthenticated, isITManager);
 
-// // Add this route near the top, after the middleware
-// router.get('/test', itManagerController.testRoute);
-
 // GET IT manager home page
 router.get('/home', itManagerController.renderITManagerHome);
 
@@ -74,5 +71,14 @@ router.post('/delete-it-manager/:id', itManagerController.deleteITManager);
 
 // // GET patient profile
 router.get('/patient/:id', itManagerController.renderPatientProfile);
+
+// Deletes a patient from the system
+router.post('/delete-patient/:id', itManagerController.deletePatient);
+
+// POST update patient
+router.post('/update-patient/:id', itManagerController.updatePatient);
+
+// Assigns a nurse to a patient
+router.post('/assign-nurse', itManagerController.assignNurseToPatient);
 
 module.exports = router;
