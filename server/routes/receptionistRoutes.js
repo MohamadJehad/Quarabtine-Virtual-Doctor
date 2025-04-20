@@ -33,4 +33,10 @@ router.get('/patient/:id', receptionistController.renderPatientProfile);
 // POST update nurse floor
 router.post('/update-nurse-floor', receptionistController.updateNurseFloor);
 
+// // GET add nurse form
+router.get('/add-nurse', receptionistController.renderAddNurseForm);
+
+// // POST add nurse
+router.post('/add-nurse', receptionistController.addNurse);
+
 module.exports = router;
