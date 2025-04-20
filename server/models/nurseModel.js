@@ -60,19 +60,20 @@ class Nurse {
       );
     });
   }
-
   static delete(id) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        // Delete related records first
-        await db.promise().query('DELETE FROM n_monitor_p WHERE nurse_id = ?', [id]);
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          // Delete related records first
+          await db.promise().query('DELETE FROM n_monitor_p WHERE nurse_id = ?', [id]);
 
-        // Delete the nurse
-        const result = await db.promise().query('DELETE FROM nurse WHERE id = ?', [id]);
-        resolve(result[0].affectedRows > 0);
-      } catch (err) {
-        reject(err);
-      }
+          // Delete the nurse
+          const result = await db.promise().query('DELETE FROM nurse WHERE id = ?', [id]);
+          resolve(result[0].affectedRows > 0);
+        } catch (err) {
+          reject(err);
+        }
+      })();
     });
   }
 
