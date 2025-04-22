@@ -125,7 +125,7 @@ class Patient {
 
   static update(id, patientData) {
     return new Promise((resolve, reject) => {
-      const { FName, gender, weight, birthDate, mobile, city, street, buildingNo, roomId } =
+      const { FName, gender, weight, birthDate, mobile, city, street, buildingNo, room_id } =
         patientData;
 
       db.query(
@@ -133,7 +133,7 @@ class Patient {
          FName = ?, gender = ?, weight = ?, birthDate = ?, 
          mobile = ?, city = ?, street = ?, buildingNo = ?, room_id = ?
          WHERE ID = ?`,
-        [FName, gender, weight, birthDate, mobile, city, street, buildingNo, roomId, id],
+        [FName, gender, weight, birthDate, mobile, city, street, buildingNo, room_id, id],
         (err, result) => {
           if (err) return reject(err);
           resolve(result.affectedRows > 0);

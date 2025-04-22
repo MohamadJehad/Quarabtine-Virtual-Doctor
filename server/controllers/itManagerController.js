@@ -450,7 +450,7 @@ exports.deletePatient = async (req, res) => {
 exports.updatePatient = async (req, res) => {
   try {
     const patientId = req.params.id;
-    const { FName, weight, birthDate, mobile, city, street, buildingNo, roomId } = req.body;
+    const { FName, weight, birthDate, mobile, city, street, buildingNo, room_id } = req.body;
 
     // Update patient
     const success = await Patient.update(patientId, {
@@ -462,7 +462,7 @@ exports.updatePatient = async (req, res) => {
       city,
       street,
       buildingNo,
-      roomId,
+      room_id,
     });
 
     if (!success) {
