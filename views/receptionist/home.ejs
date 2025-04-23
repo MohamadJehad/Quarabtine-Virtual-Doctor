@@ -37,25 +37,31 @@
       <!-- Dashboard Stats -->
       <div class="row dashboard-stats">
         <div class="col-md-3">
+          <a href="#patients" class="no-underline">
           <div class="stat-card bg-gradient-primary">
             <i class="fas fa-user-injured"></i>
             <h3><%= patients.length %></h3>
             <p>Total Patients</p>
           </div>
+          </a>
         </div>
         <div class="col-md-3">
-          <div class="stat-card bg-gradient-success">
-            <i class="fas fa-user-nurse"></i>
-            <h3><%= nurses.length %></h3>
-            <p>Total Nurses</p>
-          </div>
+          <a href="#nurses" class="no-underline">
+            <div class="stat-card bg-gradient-success">
+              <i class="fas fa-user-nurse"></i>
+              <h3><%= nurses.length %></h3>
+              <p>Total Nurses</p>
+            </div>
+          </a>
         </div>
         <div class="col-md-3">
+          <a href="#monitoring" class="no-underline">
           <div class="stat-card bg-gradient-warning">
             <i class="fas fa-procedures"></i>
             <h3><%= nmonitorp.length %></h3>
             <p>Monitoring Records</p>
           </div>
+          </a>
         </div>
         <div class="col-md-3">
           <div class="stat-card bg-gradient-info">
