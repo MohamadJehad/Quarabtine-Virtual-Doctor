@@ -1,23 +1,23 @@
 <%- contentFor('body') %>
 
 <!-- ======= Header ======= -->
-<header id="header" class="fixed-top" >
+<header id="header" class="fixed-top">
   <div class="container d-flex align-items-center">
     <h1 class="logo me-auto"><a href="/">Quarantine Virtual Doctor</a></h1>
     <nav id="navbar" class="navbar order-last order-lg-0">
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Menu
+            <i class="fas fa-bars me-2"></i> Menu
           </a>
-          <ul class="dropdown-menu" style="position: fixed; top: 50px; width: 30px; left: 88%; z-index: 1000;" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#IT_Manager">IT Managers</a></li>
-            <li><a class="dropdown-item" href="#Doctor">Doctors</a></li>
-            <li><a class="dropdown-item" href="#Patient">Patients</a></li>
-            <li><a class="dropdown-item" href="#Nurse">Nurses</a></li>
-            <li><a class="dropdown-item" href="#Receptionist">Receptionists</a></li>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#IT_Manager"><i class="fas fa-user-shield me-2"></i>IT Managers</a></li>
+            <li><a class="dropdown-item" href="#Doctor"><i class="fas fa-user-md me-2"></i>Doctors</a></li>
+            <li><a class="dropdown-item" href="#Patient"><i class="fas fa-user-injured me-2"></i>Patients</a></li>
+            <li><a class="dropdown-item" href="#Nurse"><i class="fas fa-user-nurse me-2"></i>Nurses</a></li>
+            <li><a class="dropdown-item" href="#Receptionist"><i class="fas fa-user-tie me-2"></i>Receptionists</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/auth/logout">Log Out</a></li>
+            <li><a class="dropdown-item" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i>Log Out</a></li>
           </ul>
         </li>
       </ul>
@@ -418,4 +418,24 @@
       });
     });
   });
+
+  // Add scroll behavior to navbar
+document.addEventListener('DOMContentLoaded', function() {
+  const header = document.getElementById('header');
+  
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+      header.classList.add('navbar-scrolled');
+    } else {
+      header.classList.remove('navbar-scrolled');
+    }
+  });
+  
+  // Initialize Bootstrap tooltips
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+});
+
 </script>
