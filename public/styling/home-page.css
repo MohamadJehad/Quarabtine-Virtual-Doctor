@@ -94,6 +94,9 @@
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
 }
+.no-underline {
+  text-decoration: none;
+}
 
 /* Robot Control Styles */
 .robot-controls {
