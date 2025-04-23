@@ -110,6 +110,111 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Navbar Styling */
+#header {
+  background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#header .logo a {
+  color: white;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+#header .logo a:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.navbar-nav .nav-link {
+  color: white !important;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-menu {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  min-width: 200px;
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #4e73df;
+}
+
+.dropdown-divider {
+  margin: 8px 0;
+  border-top: 1px solid #e9ecef;
+}
+
+.mobile-nav-toggle {
+  color: white;
+  font-size: 24px;
+}
+
+/* Make navbar fixed and add transition effect */
+.fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  transition: all 0.3s ease;
+}
+
+/* Add a subtle shadow when scrolling */
+.navbar-scrolled {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+}
+
+/* Adjust dropdown position */
+.dropdown-menu {
+  position: absolute !important;
+  top: 0.3%;
+}
+.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+/* Add animation to dropdown */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-menu.show {
+  animation: fadeIn 0.3s ease forwards;
+}
+
 /* Video Call Styles */
 .video-container {
   background-color: #f8f9fa;
